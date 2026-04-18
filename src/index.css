@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
+
+@theme {
+  --font-sans: "Cairo", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Amiri", serif;
+  --color-sleek-primary: #1a3a5f;
+  --color-sleek-secondary: #c5a059;
+  --color-sleek-bg: #f4f7f6;
+  --color-sleek-border: #dcdde1;
+}
+
+body {
+  direction: rtl;
+  background-color: #2c3e50;
+  font-family: var(--font-sans);
+  color: #2c3e50;
+}
+
+.official-header {
+  font-family: var(--font-serif);
+}
+
+/* Access Style Buttons */
+.btn-access {
+  @apply bg-white border border-sleek-border px-4 py-2 rounded shadow-sm hover:bg-slate-50 active:bg-slate-100 transition text-sleek-primary text-sm font-semibold flex items-center gap-2;
+}
+
+.btn-sleek-primary {
+  @apply bg-sleek-primary text-white hover:opacity-90 transition;
+}
+/* Office Style Patterns */
+.btn-office {
+  @apply px-4 py-2 rounded-sm border-b-2 border-r border-black/10 shadow-sm active:border-b-0 active:translate-y-[1px] transition-all flex items-center justify-center gap-2 font-bold text-sm;
+}
+
+.btn-office-blue {
+  @apply border-blue-900 bg-linear-to-b from-blue-700 to-blue-800 text-white hover:from-blue-600 hover:to-blue-700 active:bg-blue-900;
+}
+
+.btn-office-green {
+  @apply border-green-900 bg-linear-to-b from-emerald-600 to-emerald-700 text-white hover:from-emerald-500 hover:to-emerald-600 active:bg-emerald-800;
+}
+
+.btn-office-gray {
+  @apply border-gray-400 bg-linear-to-b from-gray-100 to-gray-200 text-gray-700 hover:from-white hover:to-gray-100 active:bg-gray-300;
+}
+
+.input-office {
+  @apply w-full px-3 py-1.5 bg-white border border-gray-400 rounded-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none text-sm transition-all shadow-inner;
+}
+
+.label-office {
+  @apply block text-xs font-bold text-gray-600 mb-1 flex items-center gap-1;
+}
+
+.ribbon-header {
+  @apply bg-linear-to-r from-sleek-primary to-blue-900 border-b border-white/20 shadow-md;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .printable {
+    display: flex !important;
+  }
+  @page {
+    margin: 1cm;
+  }
+}
