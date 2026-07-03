@@ -19,20 +19,20 @@ export default function Header({ currentType, docNumber, docDate }: HeaderProps)
     year: 'numeric',
   });
 
-  const targetDate = docDate ? new Date(docDate) : new Date();
-  const hijriStr = hijriFormatter.format(targetDate);
-  const gregorianStr = gregorianFormatter.format(targetDate);
+  const now = new Date();
+  const hijriStr = hijriFormatter.format(now);
+  const gregorianStr = gregorianFormatter.format(now);
 
   return (
-    <div className="w-full bg-white border-b-4 border-sleek-secondary p-6 flex justify-between items-start text-sleek-primary printable overflow-hidden shadow-sm">
+    <div className="w-full bg-white border-b-4 border-double border-gray-800 p-8 flex justify-between items-start text-gray-900 printable overflow-hidden">
       {/* Right Section - Text from Image */}
       <div className="flex flex-col text-right space-y-1 z-10">
-        <div className="border-2 border-sleek-primary p-1 px-4 mb-1">
+        <div className="border-2 border-black p-1 px-4 mb-1">
           <h2 className="text-xl font-bold font-serif leading-none">الجمهورية اليمنية</h2>
         </div>
-        <h3 className="text-md font-bold text-sleek-primary">وزارة الداخلية</h3>
-        <h3 className="text-md font-bold text-slate-600">قطاع استخبارات الشرطة</h3>
-        <h4 className="text-md font-bold text-slate-500">فرع مصلحة الجوازات</h4>
+        <h3 className="text-md font-bold">وزارة الداخلية</h3>
+        <h3 className="text-md font-bold">قطاع استخبارات الشرطة</h3>
+        <h4 className="text-md font-bold">فرع مصلحة الجوازات</h4>
       </div>
 
       {/* Center Section - Logo and Bismillah */}
@@ -57,7 +57,7 @@ export default function Header({ currentType, docNumber, docDate }: HeaderProps)
         </div>
         <div className="flex items-center gap-2">
           <span className="font-bold whitespace-nowrap">التاريـــــــــخ:</span>
-          <span className="flex-1 border-b border-dotted border-gray-600 min-w-32 text-center text-lg">{hijriStr} هـ</span>
+          <span className="flex-1 border-b border-dotted border-gray-600 min-w-32 text-center text-lg">{docDate || hijriStr} هـ</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="font-bold whitespace-nowrap">الموافــــــــق:</span>

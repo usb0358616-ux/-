@@ -39,52 +39,52 @@ export default function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a3a5f] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a3a5f] to-[#0a1a2f] flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-[#f0f2f5] rounded shadow-2xl overflow-hidden border border-gray-400">
-        <div className="ribbon-header p-8 text-center">
-          <div className="inline-flex items-center justify-center p-4 bg-white/10 rounded-sm mb-4 border border-white/20">
-            <ShieldCheck size={56} className="text-white" />
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="p-8 bg-slate-800 text-white text-center">
+          <div className="inline-flex items-center justify-center p-4 bg-slate-700 rounded-full mb-4">
+            <ShieldCheck size={48} className="text-blue-400" />
           </div>
-          <h2 className="text-2xl font-black text-white tracking-tight">نظام إدارة الأرشيف الرقمي</h2>
-          <p className="text-blue-200 mt-2 text-xs font-bold uppercase tracking-widest">Document Registry Software - Police Intelligence</p>
+          <h2 className="text-2xl font-bold">نظام إدارة الوثائق</h2>
+          <p className="text-slate-400 mt-2">مكتب استخبارات الشرطة - فرع الجوازات</p>
         </div>
         
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
           {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-sm text-xs font-bold border border-red-200">
-              ⚠️ {error}
+            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm border border-red-200">
+              {error}
             </div>
           )}
           
           <div>
-            <label className="label-office">اسم المستخدم (USERNAME)</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">اسم المستخدم</label>
             <div className="relative">
               <span className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
-                <UserIcon size={18} />
+                <UserIcon size={20} />
               </span>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="input-office pr-10 py-3"
-                placeholder="اسم المستخدم الرسمي"
+                className="w-full pr-10 pl-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                placeholder="أدخل اسم المستخدم"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="label-office">كلمة المرور (PASSWORD)</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">كلمة المرور</label>
             <div className="relative">
               <span className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
-                <Lock size={18} />
+                <Lock size={20} />
               </span>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input-office pr-10 py-3"
-                placeholder="*******"
+                className="w-full pr-10 pl-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                placeholder="************"
                 required
               />
             </div>
@@ -93,14 +93,14 @@ export default function Login({ onLogin }: LoginProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-office btn-office-blue py-3.5 text-lg"
+            className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg transition transform active:scale-95 disabled:opacity-50"
           >
-            {loading ? 'جاري التحميل...' : 'دخول النظام (LOGIN)'}
+            {loading ? 'جاري التحقق...' : 'دخول النظام'}
           </button>
         </form>
         
-        <div className="p-4 bg-gray-200 text-center text-[10px] font-black text-gray-500 border-t border-gray-300">
-          تحذير: النظام يخضع لرقابة أمنية مشددة. الدخول غير المصرح ملاحق قانونياً.
+        <div className="p-4 bg-gray-50 text-center text-xs text-gray-500 border-t border-gray-100">
+          تنبيه: هذا النظام مخصص للاستخدام الرسمي فقط.
         </div>
       </div>
     </div>

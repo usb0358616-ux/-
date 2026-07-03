@@ -5,6 +5,9 @@ import DocumentList from './components/DocumentList';
 import DocumentForm from './components/DocumentForm';
 import Reports from './components/Reports';
 import DocumentDetail from './components/DocumentDetail';
+import DailySummary from './components/DailySummary';
+import NotificationsBell from './components/NotificationsBell';
+import PersonalTasks from './components/PersonalTasks';
 import type { Document, User, DocType } from './types';
 import { 
   LayoutDashboard, 
@@ -16,13 +19,14 @@ import {
   Plus, 
   Menu,
   X as CloseIcon,
-  Bell
+  Bell,
+  FileText
 } from 'lucide-react';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'وارد' | 'صادر' | 'search' | 'reports'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'وارد' | 'صادر' | 'search' | 'reports' | 'daily-summary'>('dashboard');
   const [showForm, setShowForm] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -81,59 +85,55 @@ export default function App() {
     switch (activeTab) {
       case 'dashboard':
         return (
-          <div className="space-y-6">
-            {/* Control Panel Ribbon */}
-            <div className="bg-white border-b-2 border-sleek-primary shadow-sm p-4 flex gap-4 no-print rounded-sm border border-gray-200">
-              <button 
-                onClick={() => { setActiveTab('وارد'); setShowForm(true); }} 
-                className="btn-office btn-office-blue flex-1 h-16 text-lg"
-              >
-                <div className="bg-white/20 p-2 rounded-sm ml-2">
-                  <Inbox size={24} />
-                </div>
-                تسجيل وارد جديد
+          <div className="space-y-8">
+            {/* Quick Actions - Access Style */}
+            <div className="flex flex-col sm:flex-row gap-4 no-print">
+              <button onClick={() => { setActiveTab('وارد'); setShowForm(true); }} className="btn-access !bg-blue-600 !text-white !h-16 flex-1 text-lg">
+                <Plus size={24} />
+                وارد جديد
               </button>
-              <button 
-                onClick={() => { setActiveTab('صادر'); setShowForm(true); }} 
-                className="btn-office btn-office-green flex-1 h-16 text-lg"
-              >
-                <div className="bg-white/20 p-2 rounded-sm ml-2">
-                  <Send size={24} />
-                </div>
-                تسجيل صادر جديد
+              <button onClick={() => { setActiveTab('صادر'); setShowForm(true); }} className="btn-access !bg-orange-600 !text-white !h-16 flex-1 text-lg">
+                <Plus size={24} />
+                صادر جديد
+              </button>
+              <button onClick={() => setActiveTab('daily-summary')} className="btn-access !bg-emerald-700 !text-white !h-16 flex-1 text-lg">
+                <FileText size={24} />
+                خلاصة الأعمال اليومية
+              </button>
+              <button onClick={() => setActiveTab('reports')} className="btn-access !bg-slate-700 !text-white !h-16 flex-1 text-lg">
+                <BarChart3 size={24} />
+                التقارير
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { label: 'إجمالي الوارد المحقق', value: documents.filter(d => d.type === 'وارد').length, icon: Inbox, color: 'text-blue-700', border: 'border-blue-200', bg: 'bg-blue-50' },
-                { label: 'إجمالي الصادر المعتمد', value: documents.filter(d => d.type === 'صادر').length, icon: Send, color: 'text-emerald-700', border: 'border-emerald-200', bg: 'bg-emerald-50' },
-                { label: 'تنبيهات الأهمية القصوى', value: documents.filter(d => d.priority === 'عاجل').length, icon: Bell, color: 'text-red-700', border: 'border-red-200', bg: 'bg-red-50' },
+                { label: 'إجمالي الوارد', value: documents.filter(d => d.type === 'وارد').length, icon: Inbox, color: 'text-blue-600', bg: 'bg-blue-50' },
+                { label: 'إجمالي الصادر', value: documents.filter(d => d.type === 'صادر').length, icon: Send, color: 'text-orange-600', bg: 'bg-orange-50' },
+                { label: 'المعاملات العاجلة', value: documents.filter(d => d.priority === 'عاجل').length, icon: Bell, color: 'text-red-600', bg: 'bg-red-50' },
               ].map((stat, i) => (
-                <div key={i} className={`${stat.bg} ${stat.border} p-5 border-2 shadow-sm rounded-sm flex items-center justify-between`}>
+                <div key={i} className={`${stat.bg} p-6 rounded-2xl border border-white shadow-sm flex items-center justify-between`}>
                   <div>
-                    <p className="text-[10px] font-black uppercase text-gray-500 mb-1">{stat.label}</p>
-                    <p className={`text-4xl font-mono font-black ${stat.color}`}>{stat.value.toString().padStart(3, '0')}</p>
+                    <p className="text-sm font-bold text-gray-500 mb-1">{stat.label}</p>
+                    <p className={`text-3xl font-black ${stat.color}`}>{stat.value}</p>
                   </div>
-                  <stat.icon size={48} className={`opacity-10 ${stat.color}`} />
+                  <stat.icon size={40} className={`opacity-20 ${stat.color}`} />
                 </div>
               ))}
             </div>
-
-            <div className="bg-white border border-gray-300 shadow-sm p-2 rounded-sm">
-              <div className="bg-gray-100 p-3 border-b border-gray-300 flex justify-between items-center mb-4">
-                <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
-                  <LayoutDashboard size={18} className="text-sleek-primary" />
-                  شاشة القيود الأخيرة (LAST ENTRIES)
-                </h3>
-                <button onClick={fetchDocuments} className="text-[10px] font-bold text-blue-600 hover:underline">تحديث البيانات</button>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+              <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-lg font-bold text-gray-800 mb-6 border-r-4 border-slate-800 pr-3">آخر التحركات والقيود</h3>
+                <DocumentList 
+                  documents={documents.slice(0, 10)} 
+                  user={user} 
+                  onDelete={handleDelete} 
+                  onSelect={setSelectedDoc} 
+                />
               </div>
-              <DocumentList 
-                documents={documents.slice(0, 8)} 
-                user={user} 
-                onDelete={handleDelete} 
-                onSelect={setSelectedDoc} 
-              />
+              <div className="lg:col-span-1">
+                <PersonalTasks />
+              </div>
             </div>
           </div>
         );
@@ -141,19 +141,14 @@ export default function App() {
       case 'صادر':
         return (
           <div className="space-y-6">
-            <div className="bg-gray-100 p-4 border border-gray-300 rounded-sm flex justify-between items-center no-print shadow-xs">
-              <div className="flex items-center gap-3">
-                <div className="bg-sleek-primary p-2 rounded-sm">
-                  {activeTab === 'وارد' ? <Inbox className="text-white" /> : <Send className="text-white" />}
-                </div>
-                <h2 className="text-xl font-bold text-gray-800 tracking-tight">سجل أرشيف {activeTab} (DATABASE)</h2>
-              </div>
+            <div className="flex justify-between items-center no-print">
+              <h2 className="text-2xl font-bold text-slate-800">سجل {activeTab}</h2>
               <button 
                 onClick={() => setShowForm(true)}
-                className="btn-office btn-office-blue px-8 py-2.5"
+                className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 font-bold shadow-md transition transform active:scale-95"
               >
                 <Plus size={20} />
-                قيد جديد
+                إضافة جديد
               </button>
             </div>
             <DocumentList 
@@ -167,12 +162,7 @@ export default function App() {
       case 'search':
         return (
           <div className="space-y-6">
-            <div className="bg-gray-100 p-4 border border-gray-300 rounded-sm flex items-center gap-3 no-print shadow-xs">
-              <div className="bg-gray-700 p-2 rounded-sm text-white">
-                <FileSearch size={22} />
-              </div>
-              <h2 className="text-xl font-bold text-gray-800">البحث المتقدم والأرشفة</h2>
-            </div>
+            <h2 className="text-2xl font-bold text-slate-800 no-print">البحث المتقدم والأرشفة</h2>
             <DocumentList 
               documents={documents} 
               user={user} 
@@ -183,60 +173,63 @@ export default function App() {
         );
       case 'reports':
         return <Reports documents={documents} />;
+      case 'daily-summary':
+        return <DailySummary onRefreshDocs={fetchDocuments} />;
     }
   };
 
   return (
-    <div className="min-h-screen flex bg-sleek-bg font-sans">
+    <div className="min-h-screen flex bg-slate-50 font-sans">
       {/* Sidebar */}
-      <aside className={`bg-sleek-primary text-white transition-all duration-300 flex flex-col fixed inset-y-0 right-0 z-40 no-print shadow-xl ${sidebarOpen ? 'w-64' : 'w-20'}`}>
-        <div className="p-6 flex items-center justify-between border-b border-white/10">
+      <aside className={`bg-slate-900 text-white transition-all duration-300 flex flex-col fixed inset-y-0 right-0 z-40 no-print ${sidebarOpen ? 'w-64' : 'w-20'}`}>
+        <div className="p-6 flex items-center justify-between border-b border-slate-800">
           <span className={`font-black text-xl tracking-tighter transition-opacity ${sidebarOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>
-            ارشيف<span className="text-sleek-secondary">الشرطة</span>
+            ارشيف<span className="text-blue-400">الشرطة</span>
           </span>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-white/10 rounded-lg">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-slate-800 rounded-lg">
             {sidebarOpen ? <CloseIcon size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
-        <nav className="flex-1 py-6 space-y-1 px-3">
+        <nav className="flex-1 py-6 space-y-2 px-3 overflow-y-auto">
           {[
             { id: 'dashboard', label: 'الرئيسية', icon: LayoutDashboard },
             { id: 'وارد', label: 'الوارد', icon: Inbox },
             { id: 'صادر', label: 'الصادر', icon: Send },
+            { id: 'daily-summary', label: 'خلاصة الأعمال اليومية', icon: FileText },
             { id: 'search', label: 'البحث', icon: FileSearch },
             { id: 'reports', label: 'التقارير', icon: BarChart3 },
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id as any)}
-              className={`w-full flex items-center gap-4 px-4 py-3 rounded transition font-semibold ${
+              className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition font-semibold ${
                 activeTab === item.id 
-                ? 'bg-sleek-secondary text-sleek-primary shadow-md' 
-                : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40' 
+                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <item.icon size={22} />
+              <item.icon size={24} />
               {sidebarOpen && <span>{item.label}</span>}
             </button>
           ))}
         </nav>
 
-        <div className="p-6 border-t border-white/10 space-y-4">
+        <div className="p-6 border-t border-slate-800 space-y-4">
           <div className={`flex items-center gap-3 ${sidebarOpen ? '' : 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold border border-white/20">
+            <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold border border-slate-600">
               {user.name.charAt(0)}
             </div>
             {sidebarOpen && (
               <div className="flex-1">
-                <p className="text-sm font-bold truncate text-white">{user.name}</p>
-                <p className="text-[10px] text-sleek-secondary uppercase font-bold">{user.role}</p>
+                <p className="text-sm font-bold truncate">{user.name}</p>
+                <p className="text-[10px] text-slate-500 uppercase">{user.role}</p>
               </div>
             )}
           </div>
           <button 
             onClick={() => setUser(null)}
-            className={`w-full flex items-center gap-4 px-4 py-2 rounded text-red-400 hover:bg-red-500/10 transition font-semibold ${sidebarOpen ? '' : 'justify-center'}`}
+            className={`w-full flex items-center gap-4 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition font-semibold ${sidebarOpen ? '' : 'justify-center'}`}
           >
             <LogOut size={20} />
             {sidebarOpen && <span>خروج</span>}
@@ -246,7 +239,10 @@ export default function App() {
 
       {/* Main Content */}
       <main className={`flex-1 transition-all duration-300 pb-12 overflow-x-hidden ${sidebarOpen ? 'mr-64' : 'mr-20'}`}>
-        <div className="sticky top-0 z-30 bg-white shadow-md border-b-2 border-sleek-secondary no-print">
+        <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm no-print relative">
+          <div className="absolute left-8 top-1/2 -translate-y-1/2 z-40">
+            <NotificationsBell onStatusChanged={fetchDocuments} />
+          </div>
           <Header 
             currentType={activeTab === 'صادر' || activeTab === 'وارد' ? activeTab : undefined} 
           />
@@ -263,19 +259,6 @@ export default function App() {
           {renderContent()}
         </div>
       </main>
-
-      {/* Footer Status Bar */}
-      <footer className="fixed bottom-0 left-0 right-0 h-10 bg-sleek-primary text-white flex justify-between items-center px-6 text-[10px] font-bold no-print z-50">
-        <div>المستخدم الحالي: {user.role === 'admin' ? 'عقيد/' : 'نقيب/'} {user.name}</div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-            حالة الاتصال: متصل بقاعدة البيانات
-          </div>
-          <div className="border-r border-white/20 h-4"></div>
-          <div>{new Date().toLocaleTimeString('ar-YE')} - {new Date().toLocaleDateString('ar-YE')}</div>
-        </div>
-      </footer>
 
       {showForm && (
         <DocumentForm 

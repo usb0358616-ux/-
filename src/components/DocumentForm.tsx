@@ -15,7 +15,7 @@ export default function DocumentForm({ onSave, onCancel, initialType = 'وارد
     date: new Date().toISOString().split('T')[0],
     subject: '',
     sender: '',
-    recipient: 'فرع مصلحة الجوازات',
+    recipient: 'فرع استخبارات الشرطة',
     priority: 'عادي',
     status: 'قيد التنفيذ',
     notes: ''
@@ -27,161 +27,134 @@ export default function DocumentForm({ onSave, onCancel, initialType = 'وارد
   };
 
   return (
-    <div className="fixed inset-0 bg-sleek-primary/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-sleek-bg w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col border-2 border-sleek-secondary">
-        <div className="ribbon-header p-4 text-white flex justify-between items-center">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        <div className="bg-slate-800 p-6 text-white flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="bg-white/20 p-2 rounded-sm border border-white/30">
-              <PlusCircle className="text-white" size={24} />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold leading-none">تسجيل قيد جديد</h2>
-              <p className="text-[10px] text-blue-200 mt-1 uppercase tracking-widest">Document Registry Software v1.0</p>
-            </div>
+            <PlusCircle className="text-blue-400" />
+            <h2 className="text-xl font-bold">تسجيل وثيقة جديدة</h2>
           </div>
-          <button onClick={onCancel} className="bg-white/10 hover:bg-red-500 p-2 rounded-sm transition-colors group">
-            <X size={20} className="text-white group-hover:scale-110 transition-transform" />
+          <button onClick={onCancel} className="text-slate-400 hover:text-white transition">
+            <X size={24} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 bg-[#f0f2f5]">
-          <div className="bg-white border border-gray-300 shadow-sm p-6 grid grid-cols-2 gap-x-8 gap-y-4 rounded-sm">
-            <div className="col-span-1">
-              <label className="label-office">نوع القيد</label>
-              <div className="flex gap-1 p-1 bg-gray-100 border border-gray-300 rounded-sm">
-                <button
-                  type="button"
-                  className={`flex-1 py-1 text-xs font-bold rounded-sm transition-all ${formData.type === 'وارد' ? 'bg-blue-600 text-white shadow-inner' : 'text-gray-500 hover:bg-gray-200'}`}
-                  onClick={() => setFormData({ ...formData, type: 'وارد' })}
-                >
-                  وارد (INCOMING)
-                </button>
-                <button
-                  type="button"
-                  className={`flex-1 py-1 text-xs font-bold rounded-sm transition-all ${formData.type === 'صادر' ? 'bg-blue-600 text-white shadow-inner' : 'text-gray-500 hover:bg-gray-200'}`}
-                  onClick={() => setFormData({ ...formData, type: 'صادر' })}
-                >
-                  صادر (OUTGOING)
-                </button>
-              </div>
-            </div>
-
-            <div className="col-span-1">
-              <label className="label-office">رقم القيد المركزي</label>
-              <input
-                type="text"
-                required
-                className="input-office font-mono text-lg"
-                value={formData.number}
-                onChange={(e) => setFormData({ ...formData, number: e.target.value })}
-                placeholder="0000"
-              />
-            </div>
-
-            <div className="col-span-1">
-              <label className="label-office">تاريخ التسجيل</label>
-              <input
-                type="date"
-                required
-                className="input-office"
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              />
-            </div>
-
-            <div className="col-span-1">
-              <label className="label-office">مستوى الأهمية</label>
-              <select
-                className="input-office appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-[right_10px_center] bg-no-repeat"
-                value={formData.priority}
-                onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}
+        <form onSubmit={handleSubmit} className="p-8 grid grid-cols-2 gap-6 overflow-y-auto max-h-[80vh]">
+          <div className="col-span-1">
+            <label className="block text-sm font-bold text-gray-700 mb-2">نوع الوثيقة</label>
+            <div className="flex bg-gray-100 p-1 rounded-lg">
+              <button
+                type="button"
+                className={`flex-1 py-2 text-sm font-bold rounded-md transition ${formData.type === 'وارد' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500'}`}
+                onClick={() => setFormData({ ...formData, type: 'وارد' })}
               >
-                <option value="عادي">نطاق عادي</option>
-                <option value="عاجل">عاجل (بريد هـام)</option>
-                <option value="سري جداً">سري ومكتوم</option>
-              </select>
-            </div>
-
-            <div className="col-span-2">
-              <label className="label-office">موضوع المعاملة</label>
-              <input
-                type="text"
-                required
-                className="input-office"
-                value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                placeholder="اكتب عنوان الموضوع هنا..."
-              />
-            </div>
-
-            <div className="col-span-1">
-              <label className="label-office">{formData.type === 'وارد' ? 'المصدر (جهة الإرسال)' : 'الوجهة (جهة الاستلام)'}</label>
-              <input
-                type="text"
-                required
-                className="input-office"
-                value={formData.type === 'وارد' ? formData.sender : formData.recipient}
-                onChange={(e) => formData.type === 'وارد' ? setFormData({ ...formData, sender: e.target.value }) : setFormData({ ...formData, recipient: e.target.value })}
-                list="contacts"
-              />
-              <datalist id="contacts">
-                <option value="رئاسة الوزراء" />
-                <option value="وزارة الداخلية" />
-                <option value="جوازات المركز الرئيسي" />
-                <option value="فرع صنعاء" />
-                <option value="فرع عدن" />
-              </datalist>
-            </div>
-
-            <div className="col-span-1">
-              <label className="label-office">حالة القيد الحالية</label>
-              <select
-                className="input-office"
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                وارد
+              </button>
+              <button
+                type="button"
+                className={`flex-1 py-2 text-sm font-bold rounded-md transition ${formData.type === 'صادر' ? 'bg-white shadow-sm text-orange-600' : 'text-gray-500'}`}
+                onClick={() => setFormData({ ...formData, type: 'صادر' })}
               >
-                <option value="قيد التنفيذ">⏳ قيد الإجراء</option>
-                <option value="مكتمل">✅ تم الإنجاز</option>
-                <option value="مرفوض">❌ تم الرفض</option>
-              </select>
-            </div>
-
-            <div className="col-span-2">
-              <label className="label-office">شرح إضافي / ملاحظات</label>
-              <textarea
-                className="input-office h-20 resize-none"
-                value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              ></textarea>
+                صادر
+              </button>
             </div>
           </div>
 
-          <div className="flex gap-3 mt-6">
+          <div className="col-span-1">
+            <label className="block text-sm font-bold text-gray-700 mb-2">رقم القيد</label>
+            <input
+              type="text"
+              required
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.number}
+              onChange={(e) => setFormData({ ...formData, number: e.target.value })}
+              placeholder="مثال: 1234"
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label className="block text-sm font-bold text-gray-700 mb-2">التاريخ</label>
+            <input
+              type="date"
+              required
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.date}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label className="block text-sm font-bold text-gray-700 mb-2">الأولوية</label>
+            <select
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.priority}
+              onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}
+            >
+              <option value="عادي">عادي</option>
+              <option value="عاجل">عاجل</option>
+              <option value="سري جداً">سري جداً</option>
+            </select>
+          </div>
+
+          <div className="col-span-2">
+            <label className="block text-sm font-bold text-gray-700 mb-2">الموضوع</label>
+            <input
+              type="text"
+              required
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.subject}
+              onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+              placeholder="وصف مختصر لموضوع الوثيقة"
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label className="block text-sm font-bold text-gray-700 mb-2">{formData.type === 'وارد' ? 'من (الجهة المرسلة)' : 'إلى (الجهة المستلمة)'}</label>
+            <input
+              type="text"
+              required
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.type === 'وارد' ? formData.sender : formData.recipient}
+              onChange={(e) => formData.type === 'وارد' ? setFormData({ ...formData, sender: e.target.value }) : setFormData({ ...formData, recipient: e.target.value })}
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label className="block text-sm font-bold text-gray-700 mb-2">الحالة</label>
+            <select
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+            >
+              <option value="قيد التنفيذ">قيد التنفيذ</option>
+              <option value="مكتمل">مكتمل</option>
+              <option value="مرفوض">مرفوض</option>
+            </select>
+          </div>
+
+          <div className="col-span-2">
+            <label className="block text-sm font-bold text-gray-700 mb-2">ملاحظات إضافية</label>
+            <textarea
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none h-24 resize-none"
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            ></textarea>
+          </div>
+
+          <div className="col-span-2 flex gap-4 mt-4">
             <button
               type="submit"
-              className="flex-1 btn-office btn-office-blue py-3"
+              className="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition"
             >
-              <Save size={18} />
-              حفظ القيد (F2)
-            </button>
-            <button
-              type="button"
-              onClick={() => setFormData({
-                ...formData,
-                number: '',
-                subject: '',
-                sender: '',
-                notes: ''
-              })}
-              className="px-6 btn-office btn-office-gray"
-            >
-              مسح الحقول
+              <Save size={20} />
+              حفظ الوثيقة
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="px-6 btn-office bg-red-600 text-white border-red-800 hover:bg-red-700"
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition"
             >
+              <X size={20} />
               إلغاء
             </button>
           </div>
