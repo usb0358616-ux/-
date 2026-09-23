@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, FileText, ArrowUpRight, ArrowDownLeft, Trash2, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Filter, FileText, ArrowUpRight, ArrowDownLeft, Trash2, Printer, ChevronLeft, ChevronRight, Archive, Sparkles } from 'lucide-react';
 import type { Document, User } from '../types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -13,23 +13,30 @@ interface DocumentListProps {
   user: User;
   onDelete: (id: string) => void;
   onSelect: (doc: Document) => void;
+  onToggleArchive?: (docId: string, isArchived: boolean) => void;
 }
 
-export default function DocumentList({ documents, user, onDelete, onSelect }: DocumentListProps) {
+export default function DocumentList({ documents, user, onDelete, onSelect, onToggleArchive }: DocumentListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<'all' | 'صادر' | 'وارد'>('all');
+  const [statusFilter, setStatusFilter] = useState<'active' | 'archived' | 'all'>('active');
   const [dateFilter, setDateFilter] = useState('');
 
   const filteredDocs = documents.filter(doc => {
     const matchesSearch = 
       doc.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
       doc.sender.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doc.number.toLowerCase().includes(searchTerm.toLowerCase());
+      doc.number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (doc.extractedContent && doc.extractedContent.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesType = typeFilter === 'all' || doc.type === typeFilter;
     const matchesDate = !dateFilter || doc.date === dateFilter;
+    const matchesStatus = 
+      statusFilter === 'all' ? true :
+      statusFilter === 'archived' ? Boolean(doc.isArchived) :
+      !doc.isArchived;
 
-    return matchesSearch && matchesType && matchesDate;
+    return matchesSearch && matchesType && matchesDate && matchesStatus;
   });
 
   return (
@@ -50,7 +57,7 @@ export default function DocumentList({ documents, user, onDelete, onSelect }: Do
             </div>
           </div>
 
-          <div className="w-40">
+          <div className="w-36">
             <label className="block text-sm font-semibold text-gray-700 mb-2">نوع الوثيقة</label>
             <select
               className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
@@ -63,7 +70,20 @@ export default function DocumentList({ documents, user, onDelete, onSelect }: Do
             </select>
           </div>
 
-          <div className="w-48">
+          <div className="w-44">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">نطاق السجلات</label>
+            <select
+              className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as any)}
+            >
+              <option value="active">النشطة فقط (الافتراضي)</option>
+              <option value="archived">المؤرشفة (&gt; 6 أشهر)</option>
+              <option value="all">كافة السجلات</option>
+            </select>
+          </div>
+
+          <div className="w-40">
             <label className="block text-sm font-semibold text-gray-700 mb-2">تصفية بالتاريخ</label>
             <input
               type="date"
@@ -107,7 +127,23 @@ export default function DocumentList({ documents, user, onDelete, onSelect }: Do
                       {doc.type}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm font-semibold text-gray-800">{doc.subject}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-gray-800">
+                    <div className="flex items-center gap-2">
+                      <span>{doc.subject}</span>
+                      {doc.isArchived && (
+                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">
+                          <Archive size={11} />
+                          مؤرشف (&gt; 6 أشهر)
+                        </span>
+                      )}
+                      {doc.extractedContent && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800" title="يحتوي على نصوص مستخرجة">
+                          <Sparkles size={11} />
+                          محتوى مستخرج
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-6 py-4 text-sm text-gray-600">{doc.sender}</td>
                   <td className="px-6 py-4 text-sm text-gray-500 font-mono">{doc.date}</td>
                   <td className="px-6 py-4">
@@ -121,6 +157,15 @@ export default function DocumentList({ documents, user, onDelete, onSelect }: Do
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                      {onToggleArchive && (
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); onToggleArchive(doc.id, !doc.isArchived); }} 
+                          className={`p-1.5 rounded shadow-sm ${doc.isArchived ? 'text-amber-600 hover:bg-amber-50' : 'text-slate-500 hover:text-amber-600 hover:bg-white'}`}
+                          title={doc.isArchived ? "استعادة للسجلات النشطة" : "أرشفة المستند"}
+                        >
+                          <Archive size={16} />
+                        </button>
+                      )}
                       <button 
                         onClick={(e) => { e.stopPropagation(); window.print(); }} 
                         className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-white rounded shadow-sm"
