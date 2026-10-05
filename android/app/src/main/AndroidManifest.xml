@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.yemen.portssecurity">
+
+    <!-- الأذونات السيادية والأمنية للتطبيق -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+    <!-- قراءة وكتابة الملفات (Excel, PDF, المرفقات والنسخ الاحتياطي) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_DOCUMENTS" tools:ignore="SelectedPhotoAccess" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+
+    <!-- الموقع الجغرافي لتحديد منفذ الضبط والتحقق الميداني -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- أذونات النظام والإشعارات والمهام الخلفية -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <application
+        android:name=".PortsSecurityApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PortsSecurity"
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="33">
+
+        <!-- موفر الملفات لمشاركة وطباعة تقارير PDF وتصاريح التنقل وكشوفات Excel -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- ======================================================== -->
+        <!-- المرحلة 3: شاشات الدخول والمصادقة السيادية                 -->
+        <!-- ======================================================== -->
+
+        <!-- شاشة البداية والتحميل والتحقق من التشفير -->
+        <activity
+            android:name=".presentation.auth.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.PortsSecurity.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".presentation.auth.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".presentation.auth.ForgotPasswordActivity"
+            android:exported="false"
+            android:parentActivityName=".presentation.auth.LoginActivity" />
+
+        <activity
+            android:name=".presentation.auth.ChangePasswordActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- المرحلة 4: الشاشة الرئيسية ولوحة القيادة                   -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 1: إدارة المسافرين                                -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.passengers.PassengersListActivity"
+            android:exported="false"
+            android:label="@string/title_passengers_list" />
+
+        <activity
+            android:name=".presentation.passengers.PassengerDossierActivity"
+            android:exported="false"
+            android:label="@string/title_passenger_dossier" />
+
+        <activity
+            android:name=".presentation.passengers.AddEditPassengerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".presentation.passengers.SecurityCheckActivity"
+            android:exported="false"
+            android:label="@string/title_security_check" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 2: محاضر الضبط والجوازات المحتجزة (الأكثر استخداماً)  -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.seizures.SeizuresListActivity"
+            android:exported="false"
+            android:label="@string/title_seizures_list" />
+
+        <activity
+            android:name=".presentation.seizures.SeizureRecordActivity"
+            android:exported="false"
+            android:label="@string/title_seizure_record" />
+
+        <activity
+            android:name=".presentation.seizures.AddSeizedPassportActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".presentation.seizures.SeizureOperationsActivity"
+            android:exported="false"
+            android:label="@string/title_seizure_operations" />
+
+        <activity
+            android:name=".presentation.seizures.DeliveryActivity"
+            android:exported="false"
+            android:label="@string/title_passport_delivery" />
+
+        <activity
+            android:name=".presentation.seizures.ImportExcelActivity"
+            android:exported="false"
+            android:label="@string/title_import_excel" />
+
+        <activity
+            android:name=".presentation.seizures.ImportPreviewActivity"
+            android:exported="false"
+            android:label="@string/title_import_preview" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 3: المهاجرون غير الشرعيين                         -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.migrants.MigrantsListActivity"
+            android:exported="false"
+            android:label="@string/title_migrants_list" />
+
+        <activity
+            android:name=".presentation.migrants.AddMigrantActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.migrants.MigrantOperationsActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 4: المنافذ الـ 13 الرسمية                           -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.ports.PortsListActivity"
+            android:exported="false"
+            android:label="@string/title_ports_list" />
+
+        <activity
+            android:name=".presentation.ports.PortDetailsActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 5: اللاجئون وتصاريح اللجوء المؤقتة                -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.refugees.RefugeesListActivity"
+            android:exported="false"
+            android:label="@string/title_refugees_list" />
+
+        <activity
+            android:name=".presentation.refugees.RefugeeDossierActivity"
+            android:exported="false"
+            android:label="@string/title_refugee_dossier" />
+
+        <activity
+            android:name=".presentation.refugees.AddEditRefugeeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.refugees.AddRelativeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.refugees.AddCriminalRecordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.refugees.IssuePermitActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.refugees.PermitCardActivity"
+            android:exported="false"
+            android:label="@string/title_permit_card" />
+
+        <activity
+            android:name=".presentation.refugees.RejectRefugeeActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 6: الوافدون الأجانب                                -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.foreigners.ForeignersListActivity"
+            android:exported="false"
+            android:label="@string/title_foreigners_list" />
+
+        <activity
+            android:name=".presentation.foreigners.ForeignerDossierActivity"
+            android:exported="false"
+            android:label="@string/title_foreigner_dossier" />
+
+        <activity
+            android:name=".presentation.foreigners.AddForeignerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.foreigners.ForeignerMedicalActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 7: تصاريح التنقل الداخلي                          -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.movement.MovementPermitsListActivity"
+            android:exported="false"
+            android:label="@string/title_movement_permits" />
+
+        <activity
+            android:name=".presentation.movement.MovementPermitActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".presentation.movement.AddCompanionActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.movement.AddAccommodationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.movement.PrintMovementPermitActivity"
+            android:exported="false"
+            android:label="@string/title_print_movement_permit" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 8: التأشيرات والإقامات وتتبع الـ SLA               -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.visas.VisasListActivity"
+            android:exported="false"
+            android:label="@string/title_visas_list" />
+
+        <activity
+            android:name=".presentation.visas.VisaApplicationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.visas.ResidencyListActivity"
+            android:exported="false"
+            android:label="@string/title_residency_list" />
+
+        <activity
+            android:name=".presentation.visas.ResidencyApplicationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.visas.ResidencyRenewalActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.visas.EntryPermitActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.visas.YemeniVisasListActivity"
+            android:exported="false"
+            android:label="@string/title_yemeni_visas" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 9: الجنسية والزواج                                -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.nationality.MarriageRequestActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.nationality.NationalityRequestActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.nationality.NationalityByDecreeActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 10: وثائق السفر                                   -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.traveldocs.TravelDocumentsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.traveldocs.PalestinianDocsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.traveldocs.YemeniChildrenPassportsActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 11: شركات الحج والعمرة                            -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.hajj.HajjCompaniesListActivity"
+            android:exported="false"
+            android:label="@string/title_hajj_companies" />
+
+        <activity
+            android:name=".presentation.hajj.CompanySecurityCheckActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.hajj.CompanySuspensionActivity"
+            android:exported="false" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 12: المذكرات والبرقيات الرسمية (نظام القوالب التلقائي) -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.correspondence.MemorandaListActivity"
+            android:exported="false"
+            android:label="@string/title_memoranda_list" />
+
+        <activity
+            android:name=".presentation.correspondence.MemorandumEditorActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".presentation.correspondence.MemorandumViewActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.correspondence.TelegramActivity"
+            android:exported="false"
+            android:label="@string/title_telegram" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 13: التقارير والإحصاءات وسجل العمليات             -->
+        <!-- ======================================================== -->
+
+        <activity
+            android:name=".presentation.reports.DashboardActivity"
+            android:exported="false"
+            android:label="@string/title_dashboard" />
+
+        <activity
+            android:name=".presentation.reports.ReportsActivity"
+            android:exported="false"
+            android:label="@string/title_reports" />
+
+        <activity
+            android:name=".presentation.reports.AuditLogActivity"
+            android:exported="false"
+            android:label="@string/title_audit_log" />
+
+        <activity
+            android:name=".presentation.reports.SLADashboardActivity"
+            android:exported="false"
+            android:label="@string/title_sla_dashboard" />
+
+        <!-- إدارة النظام والمستخدمين والنسخ الاحتياطي -->
+        <activity
+            android:name=".presentation.admin.UsersManagementActivity"
+            android:exported="false"
+            android:label="@string/title_users_management" />
+
+        <activity
+            android:name=".presentation.admin.RolesPermissionsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.admin.BackupRestoreActivity"
+            android:exported="false"
+            android:label="@string/title_backup_restore" />
+
+        <activity
+            android:name=".presentation.admin.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_settings" />
+
+    </application>
+
+</manifest>

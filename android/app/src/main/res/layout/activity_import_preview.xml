@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_slate"
+    android:layoutDirection="rtl"
+    android:padding="16dp">
+
+    <!-- شريط معلومات المعاينة -->
+    <TextView
+        android:id="@+id/tvPreviewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="معاينة وتدقيق السجلات المستخرجة"
+        android:textColor="@color/primary_navy"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvCountBadge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCountBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_yemen_eagle"
+        android:backgroundTint="@color/primary_navy"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
+        android:textColor="@color/surface_white"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPreviewTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPreviewSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="راجع السجلات وتحقق من مطابقة الحقول قبل الاعتماد في السجل السيادي المشفر"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/tvPreviewTitle" />
+
+    <!-- قائمة السجلات للمعاينة -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPreviewRecords"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCommitImport"
+        app:layout_constraintTop_toBottomOf="@+id/tvPreviewSubtitle" />
+
+    <!-- زر الاعتماد النهائي والحفظ في Room Database -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCommitImport"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:backgroundTint="@color/status_success"
+        android:fontFamily="sans-serif-black"
+        android:text="اعتماد واستيراد السجلات الصالحة"
+        android:textColor="@color/surface_white"
+        android:textSize="15sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

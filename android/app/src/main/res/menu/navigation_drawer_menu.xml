@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/grp_main" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_dashboard" />
+        <item
+            android:id="@+id/nav_seizures"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_seizures_list" />
+        <item
+            android:id="@+id/nav_passengers"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_passengers_list" />
+        <item
+            android:id="@+id/nav_refugees"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_refugees_list" />
+        <item
+            android:id="@+id/nav_foreigners"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_foreigners_list" />
+        <item
+            android:id="@+id/nav_movement"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_movement_permits" />
+        <item
+            android:id="@+id/nav_visas"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_visas_list" />
+        <item
+            android:id="@+id/nav_migrants"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_migrants_list" />
+        <item
+            android:id="@+id/nav_ports"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_ports_list" />
+        <item
+            android:id="@+id/nav_correspondence"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_memoranda_list" />
+        <item
+            android:id="@+id/nav_hajj"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_hajj_companies" />
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_yemen_eagle"
+            android:title="@string/title_reports" />
+    </group>
+
+    <item android:title="الإدارة والأمان">
+        <menu>
+            <item
+                android:id="@+id/nav_sla"
+                android:icon="@drawable/ic_yemen_eagle"
+                android:title="@string/title_sla_dashboard" />
+            <item
+                android:id="@+id/nav_audit"
+                android:icon="@drawable/ic_yemen_eagle"
+                android:title="@string/title_audit_log" />
+            <item
+                android:id="@+id/nav_users"
+                android:icon="@drawable/ic_yemen_eagle"
+                android:title="@string/title_users_management" />
+            <item
+                android:id="@+id/nav_backup"
+                android:icon="@drawable/ic_yemen_eagle"
+                android:title="@string/title_backup_restore" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_yemen_eagle"
+                android:title="@string/title_settings" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_yemen_eagle"
+                android:title="@string/action_logout" />
+        </menu>
+    </item>
+
+</menu>

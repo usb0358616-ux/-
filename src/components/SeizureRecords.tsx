@@ -12,9 +12,11 @@ import {
   Layers, 
   ShieldAlert,
   FileText,
-  Clock
+  Clock,
+  Sparkles
 } from 'lucide-react';
 import type { SeizureRecord, User } from '../types';
+import SmartAIImportModal from './SmartAIImportModal';
 
 interface SeizureRecordsProps {
   seizures: SeizureRecord[];
@@ -26,6 +28,7 @@ export default function SeizureRecords({ seizures, user, onRefresh }: SeizureRec
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSeizure, setSelectedSeizure] = useState<SeizureRecord | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showAIImportModal, setShowAIImportModal] = useState(false);
 
   const [formData, setFormData] = useState({
     recordNumber: '',
@@ -122,13 +125,23 @@ export default function SeizureRecords({ seizures, user, onRefresh }: SeizureRec
           </p>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-purple-900/20 transition transform active:scale-95 self-start md:self-auto"
-        >
-          <Plus size={18} />
-          قيد محضر ضبط جديد
-        </button>
+        <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <button
+            onClick={() => setShowAIImportModal(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-slate-900 hover:from-purple-700 hover:to-indigo-800 text-white px-4 py-2.5 rounded-xl font-black text-xs shadow-md shadow-purple-900/20 transition transform active:scale-95 cursor-pointer"
+          >
+            <Sparkles size={16} className="text-amber-300 animate-pulse" />
+            <span>استيراد ذكي (Excel / PDF / صورة)</span>
+          </button>
+
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-purple-900/20 transition transform active:scale-95 cursor-pointer"
+          >
+            <Plus size={16} />
+            قيد محضر جديد
+          </button>
+        </div>
       </div>
 
       {/* KPI Cards */}
@@ -534,6 +547,17 @@ export default function SeizureRecords({ seizures, user, onRefresh }: SeizureRec
           </div>
         </div>
       )}
+
+      {/* نافذة استيراد محاضر الضبط بالذكاء الاصطناعي */}
+      <SmartAIImportModal
+        isOpen={showAIImportModal}
+        onClose={() => setShowAIImportModal(false)}
+        targetType="seizures"
+        onSuccess={() => {
+          onRefresh();
+        }}
+        userOfficerName={user?.name}
+      />
     </div>
   );
 }

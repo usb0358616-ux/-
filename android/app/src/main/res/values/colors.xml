@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- الألوان السيادية الرسمية للجمهورية اليمنية والمنظومة الأمنية -->
+    <color name="primary_navy">#1A365D</color>
+    <color name="primary_navy_dark">#0F2038</color>
+    <color name="primary_navy_light">#2A4A7F</color>
+
+    <color name="secondary_gold">#D4AF37</color>
+    <color name="secondary_gold_dark">#AA8C2C</color>
+    <color name="secondary_gold_light">#F3E5AB</color>
+
+    <!-- ألوان الحالات والإنذارات -->
+    <color name="status_success">#16A34A</color>
+    <color name="status_warning">#D97706</color>
+    <color name="status_danger">#DC2626</color>
+    <color name="status_info">#2563EB</color>
+
+    <!-- الخلفيات والأسطح -->
+    <color name="background_slate">#F8FAFC</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="surface_card_stroke">#E2E8F0</color>
+
+    <!-- نصوص وعناصر رمادية -->
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#475569</color>
+    <color name="text_muted">#94A3B8</color>
+    <color name="divider_color">#E2E8F0</color>
+
+    <!-- ألوان شارة المنافذ -->
+    <color name="port_land">#047857</color>
+    <color name="port_sea">#0369A1</color>
+    <color name="port_air">#4338CA</color>
+</resources>

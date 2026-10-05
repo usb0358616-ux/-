@@ -20,15 +20,17 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
-import type { PassportRecord, PassportStatus, User } from '../types';
+import type { PassportRecord, PassportStatus, User, LabelOverride } from '../types';
 import FormGeneratorModal from './FormGeneratorModal';
-import { Stamp } from 'lucide-react';
+import SmartAIImportModal from './SmartAIImportModal';
+import { Stamp, Sparkles } from 'lucide-react';
 
 interface PassportsHubProps {
   passports: PassportRecord[];
   user: User;
   onRefresh: () => void;
   onSelectPassport?: (p: PassportRecord) => void;
+  labelOverrides?: LabelOverride[];
 }
 
 export const STATUS_COLORS: Record<PassportStatus, { bg: string; text: string; border: string }> = {
@@ -46,7 +48,7 @@ export const STATUS_COLORS: Record<PassportStatus, { bg: string; text: string; b
   'ملغى': { bg: 'bg-zinc-100', text: 'text-zinc-500', border: 'border-zinc-300' },
 };
 
-export default function PassportsHub({ passports, user, onRefresh, onSelectPassport }: PassportsHubProps) {
+export default function PassportsHub({ passports, user, onRefresh, onSelectPassport, labelOverrides }: PassportsHubProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedPassport, setSelectedPassport] = useState<PassportRecord | null>(null);
@@ -55,6 +57,13 @@ export default function PassportsHub({ passports, user, onRefresh, onSelectPassp
   const [newStatus, setNewStatus] = useState<PassportStatus>('مسجل');
   const [statusReason, setStatusReason] = useState('');
   const [showFormModal, setShowFormModal] = useState(false);
+  const [showAIImportModal, setShowAIImportModal] = useState(false);
+
+  const getFieldLabel = (fieldKey: string, defaultLabel: string) => {
+    if (!labelOverrides) return defaultLabel;
+    const match = labelOverrides.find(o => o.entity_type === 'passport' && o.field_key === fieldKey);
+    return match ? match.new_label : defaultLabel;
+  };
 
   // Form state
   const [formData, setFormData] = useState({
@@ -153,12 +162,20 @@ export default function PassportsHub({ passports, user, onRefresh, onSelectPassp
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setShowAIImportModal(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white px-4 py-2.5 rounded-xl font-black text-xs shadow-md transition transform active:scale-95 cursor-pointer"
+          >
+            <Sparkles size={16} className="text-amber-300 animate-pulse" />
+            <span>استيراد ذكي (Excel / PDF / صورة)</span>
+          </button>
+
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-blue-900/20 transition transform active:scale-95"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-blue-900/20 transition transform active:scale-95 cursor-pointer"
           >
-            <Plus size={18} />
+            <Plus size={16} />
             تسجيل جواز جديد
           </button>
         </div>
@@ -223,7 +240,7 @@ export default function PassportsHub({ passports, user, onRefresh, onSelectPassp
           <table className="w-full text-right border-collapse">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider">
-                <th className="py-3.5 px-4">رقم الجواز</th>
+                <th className="py-3.5 px-4">{getFieldLabel('passportNumber', 'رقم الجواز')}</th>
                 <th className="py-3.5 px-4">اسم صاحب الجواز</th>
                 <th className="py-3.5 px-4">الجنسية</th>
                 <th className="py-3.5 px-4">الحالة الحالية</th>
@@ -745,6 +762,17 @@ export default function PassportsHub({ passports, user, onRefresh, onSelectPassp
           }}
         />
       )}
+
+      {/* نافذة استيراد الجوازات المضبوطة بالذكاء الاصطناعي */}
+      <SmartAIImportModal
+        isOpen={showAIImportModal}
+        onClose={() => setShowAIImportModal(false)}
+        targetType="seizures"
+        onSuccess={() => {
+          onRefresh();
+        }}
+        userOfficerName={user?.name}
+      />
     </div>
   );
 }

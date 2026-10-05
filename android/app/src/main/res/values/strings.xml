@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- اسم المنظومة السيادية -->
+    <string name="app_name">منظومة الأمن والجوازات والمنافذ</string>
+    <string name="app_subname">الجمهورية اليمنية - مصلحة الهجرة والجوازات والجنسية</string>
+    <string name="sovereign_motto">الأمن واليقظة لحماية سيادة الوطن</string>
+
+    <!-- شاشات الدخول والمصادقة -->
+    <string name="title_login">تسجيل الدخول الأمني</string>
+    <string name="hint_username">الرقم العسكري أو اسم المستخدم</string>
+    <string name="hint_password">كلمة المرور المشفرة</string>
+    <string name="btn_login">دخول المنظومة</string>
+    <string name="btn_forgot_password">نسيت كلمة المرور؟</string>
+    <string name="msg_login_failed">بيانات الدخول غير صحيحة، يرجى إعادة المحاولة</string>
+    <string name="msg_account_locked">تم تجميد الحساب لتكرار المحاولات الخاطئة. راجع مدير النظام</string>
+    <string name="msg_session_expired">انتهت صلاحية الجلسة بسبب عدم النشاط (15 دقيقة)</string>
+
+    <!-- عناوين الوحدات الـ 13 -->
+    <string name="title_passengers_list">سجل المسافرين والتحقق</string>
+    <string name="title_passenger_dossier">الملف الأمني الشامل للمسافر</string>
+    <string name="title_security_check">الفحص الأمني والمطابقة وقوائم المنع</string>
+
+    <string name="title_seizures_list">محاضر الضبط بالمنافذ والنقاط</string>
+    <string name="title_seizure_record">تفاصيل محضر الضبط</string>
+    <string name="title_seizure_operations">دورة عمليات وتداول المحضر</string>
+    <string name="title_passport_delivery">محضر وإجراء تسليم الجواز</string>
+    <string name="title_import_excel">المعالج الذكي لاستيراد Excel</string>
+    <string name="title_import_preview">معاينة ومطابقة بيانات الكشف قبل الحفظ</string>
+
+    <string name="title_migrants_list">شؤون المهاجرين غير الشرعيين</string>
+    <string name="title_ports_list">المنافذ السيادية الـ 13</string>
+    <string name="title_refugees_list">سجل شؤون اللاجئين</string>
+    <string name="title_refugee_dossier">الملف الشامل للاجئ</string>
+    <string name="title_permit_card">بطاقة تصريح اللجوء المؤقتة</string>
+
+    <string name="title_foreigners_list">الوافدون والخبراء الأجانب</string>
+    <string name="title_foreigner_dossier">إضبارة الوافد الأجنبي والخبرات</string>
+
+    <string name="title_movement_permits">تصاريح التنقل والتحرك الميداني</string>
+    <string name="title_print_movement_permit">طباعة تصريح تنقل رسمي (A4)</string>
+
+    <string name="title_visas_list">التأشيرات وأذون الدخول</string>
+    <string name="title_residency_list">الإقامات وتجديداتها</string>
+    <string name="title_yemeni_visas">كشوفات تأشيرات اليمنيين الصادرة بالخارج</string>
+
+    <string name="title_hajj_companies">شركات تفويج الحج والعمرة والضمانات</string>
+    <string name="title_memoranda_list">المذكرات والمراسلات الرسمية</string>
+    <string name="title_telegram">البرقيات الدورية والتوجيهات</string>
+
+    <string name="title_dashboard">لوحة القيادة والمؤشرات الأمنية</string>
+    <string name="title_reports">التقارير والإحصائيات التراكمية</string>
+    <string name="title_audit_log">سجل العمليات والمطابقة الأمنية (Audit Log)</string>
+    <string name="title_sla_dashboard">تتبع المدد والمهل القانونية (SLA)</string>
+    <string name="title_users_management">إدارة المستخدمين والأدوار العسكرية</string>
+    <string name="title_backup_restore">النسخ الاحتياطي المشفر والاستعادة</string>
+    <string name="title_settings">إعدادات النظام والأمن</string>
+
+    <!-- أزرار وعمليات مشتركة -->
+    <string name="action_save">حفظ واعتماد</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_edit">تعديل</string>
+    <string name="action_export_excel">تصدير إلى Excel</string>
+    <string name="action_import_excel">استيراد كشف Excel</string>
+    <string name="action_print_pdf">طباعة تقرير PDF رسمي</string>
+    <string name="action_search">بحث برقم الجواز أو الاسم أو المنفذ...</string>
+    <string name="action_filter">تصفية النتائج</string>
+    <string name="action_logout">تسجيل الخروج الآمن</string>
+
+    <!-- رسائل التنبيه والخطأ -->
+    <string name="permission_denied">ليس لديك الصلاحية الأمنية الكافية لتنفيذ هذا الإجراء</string>
+    <string name="data_saved_success">تم حفظ واعتماد البيانات بنجاح في السجل المشفر</string>
+    <string name="confirm_delete_title">تأكيد الحذف الأمني</string>
+    <string name="confirm_delete_msg">هل أنت متأكد من حذف هذا السجل نهائياً؟ سيتم توثيق العملية في سجل التدقيق.</string>
+</resources>

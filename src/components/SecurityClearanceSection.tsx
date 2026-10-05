@@ -18,7 +18,8 @@ import {
 import type { SecurityClearanceRequest, BatchTransferRecord, User, ClearanceDepartment } from '../types';
 import PersonDossierModal from './PersonDossierModal';
 import FormGeneratorModal from './FormGeneratorModal';
-import { UserCheck, Stamp } from 'lucide-react';
+import SmartAIImportModal from './SmartAIImportModal';
+import { UserCheck, Stamp, Sparkles } from 'lucide-react';
 
 // القواعد الرسمية المعتمدة في محاضر وزارة الداخلية
 export const OFFICIAL_SLA_RULES: Record<ClearanceDepartment, { service: string; days: number; periodLabel: string }[]> = {
@@ -71,6 +72,7 @@ export default function SecurityClearanceSection({
   const [showActionModal, setShowActionModal] = useState(false);
   const [selectedPersonDossier, setSelectedPersonDossier] = useState<SecurityClearanceRequest | null>(null);
   const [selectedRequestForForm, setSelectedRequestForForm] = useState<SecurityClearanceRequest | null>(null);
+  const [showAIImportModal, setShowAIImportModal] = useState(false);
 
   // New Request Form State
   const [selectedDept, setSelectedDept] = useState<ClearanceDepartment>('الإدارة العامة للشؤون العربية والأجنبية');
@@ -217,11 +219,19 @@ export default function SecurityClearanceSection({
 
           <div className="flex flex-wrap items-center gap-2">
             <button
+              onClick={() => setShowAIImportModal(true)}
+              className="bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white px-4 py-2.5 rounded-xl font-black text-xs shadow-md transition flex items-center gap-2 cursor-pointer"
+            >
+              <Sparkles className="h-4 w-4 text-amber-300 animate-pulse" />
+              <span>استيراد ذكي للمعاملات (Excel / PDF / صورة)</span>
+            </button>
+
+            <button
               onClick={() => setShowAddModal(true)}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md transition flex items-center gap-2 cursor-pointer"
             >
               <Plus className="h-4 w-4" />
-              إحالة معاملة جديدة للموافقة
+              إحالة معاملة جديدة
             </button>
           </div>
         </div>
@@ -774,6 +784,17 @@ export default function SecurityClearanceSection({
           }}
         />
       )}
+
+      {/* نافذة استيراد المعاملات بالذكاء الاصطناعي */}
+      <SmartAIImportModal
+        isOpen={showAIImportModal}
+        onClose={() => setShowAIImportModal(false)}
+        targetType="clearances"
+        onSuccess={() => {
+          onRefresh();
+        }}
+        userOfficerName={user?.name}
+      />
     </div>
   );
 }

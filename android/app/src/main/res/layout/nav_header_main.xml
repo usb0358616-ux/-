@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="@color/primary_navy"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/ivHeaderEmblem"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/ic_yemen_eagle" />
+
+    <TextView
+        android:id="@+id/tvOfficerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="الرتبة / اسم الضابط"
+        android:textColor="@color/surface_white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tvMilitaryInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="الرقم العسكري: MIL-00000 | الإدارة العامة"
+        android:textColor="@color/secondary_gold_light"
+        android:textSize="12sp" />
+
+</LinearLayout>

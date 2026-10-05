@@ -20,6 +20,15 @@ import ResidencySection from './components/ResidencySection';
 import ExcelImportTool from './components/ExcelImportTool';
 import CentralSearchSection from './components/CentralSearchSection';
 import SecurityClearanceSection from './components/SecurityClearanceSection';
+import PortsSection from './components/PortsSection';
+import MovementPermitsSection from './components/MovementPermitsSection';
+import OrganizationsSection from './components/OrganizationsSection';
+import RefugeesSection from './components/RefugeesSection';
+import AuditLogSection from './components/AuditLogSection';
+import PoliceIntelligenceSection from './components/PoliceIntelligenceSection';
+import OfficialCorrespondenceSection from './components/OfficialCorrespondenceSection';
+import MonitoredCompaniesSection from './components/MonitoredCompaniesSection';
+import DeveloperModule from './components/DeveloperModule';
 
 import type { 
   Document, 
@@ -31,7 +40,16 @@ import type {
   OfficeRecord,
   ResidencyOrImmigrantRecord,
   SecurityClearanceRequest,
-  BatchTransferRecord
+  BatchTransferRecord,
+  PortRecord,
+  MovementPermitRecord,
+  InternationalOrganization,
+  RefugeeRecord,
+  AuditLogEntry,
+  PoliceIntelligenceRequest,
+  OfficialCorrespondence,
+  MonitoredCompany,
+  LabelOverride
 } from './types';
 
 import { 
@@ -55,20 +73,38 @@ import {
   FileSpreadsheet,
   Search,
   CheckCircle2,
-  Clock
+  Clock,
+  Anchor,
+  Navigation,
+  Globe2,
+  Fingerprint,
+  Terminal,
+  ShieldQuestion,
+  FileSignature,
+  FileCheck,
+  Code2
 } from 'lucide-react';
 
 type TabType = 
   | 'dashboard' 
+  | 'developer'
+  | 'ports'
   | 'passports' 
   | 'seizures' 
   | 'security' 
+  | 'intelligence'
+  | 'correspondence'
+  | 'companies'
   | 'clearances'
+  | 'permits'
+  | 'organizations'
+  | 'refugees'
   | 'deliveries' 
   | 'offices' 
   | 'residencies' 
   | 'excel-tool' 
   | 'central-search' 
+  | 'audit-log'
   | 'وارد' 
   | 'صادر' 
   | 'daily-summary' 
@@ -86,6 +122,15 @@ export default function App() {
   const [residencies, setResidencies] = useState<ResidencyOrImmigrantRecord[]>([]);
   const [clearances, setClearances] = useState<SecurityClearanceRequest[]>([]);
   const [batchTransfers, setBatchTransfers] = useState<BatchTransferRecord[]>([]);
+  const [ports, setPorts] = useState<PortRecord[]>([]);
+  const [movementPermits, setMovementPermits] = useState<MovementPermitRecord[]>([]);
+  const [organizations, setOrganizations] = useState<InternationalOrganization[]>([]);
+  const [refugees, setRefugees] = useState<RefugeeRecord[]>([]);
+  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
+  const [intelligenceRequests, setIntelligenceRequests] = useState<PoliceIntelligenceRequest[]>([]);
+  const [correspondences, setCorrespondences] = useState<OfficialCorrespondence[]>([]);
+  const [monitoredCompanies, setMonitoredCompanies] = useState<MonitoredCompany[]>([]);
+  const [labelOverrides, setLabelOverrides] = useState<LabelOverride[]>([]);
 
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [showForm, setShowForm] = useState(false);
@@ -111,12 +156,102 @@ export default function App() {
         fetchOffices(),
         fetchResidencies(),
         fetchClearances(),
-        fetchBatchTransfers()
+        fetchBatchTransfers(),
+        fetchPorts(),
+        fetchMovementPermits(),
+        fetchOrganizations(),
+        fetchRefugees(),
+        fetchAuditLogs(),
+        fetchIntelligence(),
+        fetchCorrespondence(),
+        fetchCompanies(),
+        fetchLabelOverrides()
       ]);
     } catch (err) {
       console.error('Failed to load system data', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchIntelligence = async () => {
+    try {
+      const res = await fetch('/api/police-intelligence');
+      setIntelligenceRequests(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch police intelligence');
+    }
+  };
+
+  const fetchCorrespondence = async () => {
+    try {
+      const res = await fetch('/api/official-correspondence');
+      setCorrespondences(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch official correspondence');
+    }
+  };
+
+  const fetchCompanies = async () => {
+    try {
+      const res = await fetch('/api/monitored-companies');
+      setMonitoredCompanies(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch monitored companies');
+    }
+  };
+
+  const fetchLabelOverrides = async () => {
+    try {
+      const res = await fetch('/api/label-overrides');
+      setLabelOverrides(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch label overrides');
+    }
+  };
+
+  const fetchPorts = async () => {
+    try {
+      const res = await fetch('/api/ports');
+      setPorts(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch ports');
+    }
+  };
+
+  const fetchMovementPermits = async () => {
+    try {
+      const res = await fetch('/api/movement-permits');
+      setMovementPermits(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch movement permits');
+    }
+  };
+
+  const fetchOrganizations = async () => {
+    try {
+      const res = await fetch('/api/organizations');
+      setOrganizations(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch organizations');
+    }
+  };
+
+  const fetchRefugees = async () => {
+    try {
+      const res = await fetch('/api/refugees');
+      setRefugees(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch refugees');
+    }
+  };
+
+  const fetchAuditLogs = async () => {
+    try {
+      const res = await fetch('/api/audit-logs');
+      setAuditLogs(await res.json());
+    } catch (err) {
+      console.error('Failed to fetch audit logs');
     }
   };
 
@@ -264,60 +399,116 @@ export default function App() {
         return (
           <div className="space-y-8">
             {/* Quick Actions Bar */}
-            <div className="flex flex-col sm:flex-row gap-3 no-print">
+            <div className="flex flex-wrap gap-2.5 no-print">
+              <button 
+                onClick={() => setActiveTab('developer')} 
+                className="btn-access !bg-red-950 !text-white !border !border-red-600/70 !h-12 px-4 text-xs font-black shadow-md flex items-center gap-2"
+              >
+                <Code2 size={18} className="text-red-400" />
+                وحدة المطور (الوحدة 14)
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('ports')} 
+                className="btn-access !bg-sky-700 !text-white !h-12 px-4 text-xs font-black shadow-sm"
+              >
+                <Anchor size={18} />
+                المنافذ الـ 13 السيادية
+              </button>
+
               <button 
                 onClick={() => setActiveTab('passports')} 
-                className="btn-access !bg-blue-600 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                className="btn-access !bg-blue-600 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <CreditCard size={20} />
-                سجل الجوازات والخط الزمني
+                <CreditCard size={18} />
+                سجل الجوازات
               </button>
 
               <button 
                 onClick={() => setActiveTab('seizures')} 
-                className="btn-access !bg-purple-600 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                className="btn-access !bg-purple-600 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <ShieldAlert size={20} />
-                محاضر الضبط بالمنافذ
+                <ShieldAlert size={18} />
+                محاضر الضبط
               </button>
 
               <button 
                 onClick={() => setActiveTab('security')} 
-                className="btn-access !bg-emerald-700 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                className="btn-access !bg-emerald-700 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <ShieldCheck size={20} />
+                <ShieldCheck size={18} />
                 الفحص الأمني
               </button>
 
               <button 
                 onClick={() => setActiveTab('clearances')} 
-                className="btn-access !bg-indigo-600 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                className="btn-access !bg-indigo-600 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <Clock size={20} />
-                الموافقات والمدد (SLA)
+                <Clock size={18} />
+                الموافقات SLA
               </button>
 
               <button 
-                onClick={() => setActiveTab('deliveries')} 
-                className="btn-access !bg-teal-700 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                onClick={() => setActiveTab('permits')} 
+                className="btn-access !bg-indigo-800 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <Send size={20} />
-                سندات التسليم
+                <Navigation size={18} />
+                تصاريح التنقل
               </button>
 
               <button 
-                onClick={() => setActiveTab('excel-tool')} 
-                className="btn-access !bg-emerald-600 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                onClick={() => setActiveTab('organizations')} 
+                className="btn-access !bg-teal-700 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <FileSpreadsheet size={20} />
-                استيراد Excel
+                <Globe2 size={18} />
+                المنظمات الدولية
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('refugees')} 
+                className="btn-access !bg-amber-700 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
+              >
+                <Fingerprint size={18} />
+                اللاجئون والمهاجرون
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('intelligence')} 
+                className="btn-access !bg-red-800 !text-white !h-12 px-4 text-xs font-black shadow-sm"
+              >
+                <ShieldQuestion size={18} />
+                استخبارات الشرطة (1191/1917)
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('correspondence')} 
+                className="btn-access !bg-cyan-800 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
+              >
+                <FileSignature size={18} />
+                المكاتبات والقوالب
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('companies')} 
+                className="btn-access !bg-violet-800 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
+              >
+                <FileCheck size={18} />
+                الرقابة على الشركات
+              </button>
+
+              <button 
+                onClick={() => setActiveTab('audit-log')} 
+                className="btn-access !bg-rose-800 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
+              >
+                <Terminal size={18} />
+                سجل الرقابة
               </button>
 
               <button 
                 onClick={() => setActiveTab('central-search')} 
-                className="btn-access !bg-slate-900 !text-white !h-14 flex-1 text-sm font-bold shadow-sm"
+                className="btn-access !bg-slate-900 !text-white !h-12 px-4 text-xs font-bold shadow-sm"
               >
-                <Search size={20} />
+                <Search size={18} />
                 البحث المركزي
               </button>
             </div>
@@ -412,12 +603,61 @@ export default function App() {
           </div>
         );
 
+      case 'ports':
+        return (
+          <PortsSection 
+            ports={ports} 
+            user={user} 
+            onRefresh={fetchAllData} 
+            onNavigateToSeizures={(portName) => {
+              setActiveTab('seizures');
+            }}
+          />
+        );
+
+      case 'permits':
+        return (
+          <MovementPermitsSection 
+            permits={movementPermits} 
+            user={user} 
+            onRefresh={fetchAllData} 
+          />
+        );
+
+      case 'organizations':
+        return (
+          <OrganizationsSection 
+            organizations={organizations} 
+            user={user} 
+            onRefresh={fetchAllData} 
+          />
+        );
+
+      case 'refugees':
+        return (
+          <RefugeesSection 
+            refugees={refugees} 
+            user={user} 
+            onRefresh={fetchAllData} 
+          />
+        );
+
+      case 'audit-log':
+        return (
+          <AuditLogSection 
+            auditLogs={auditLogs} 
+            user={user} 
+            onRefresh={fetchAllData} 
+          />
+        );
+
       case 'passports':
         return (
           <PassportsHub 
             passports={passports} 
             user={user} 
             onRefresh={fetchAllData} 
+            labelOverrides={labelOverrides}
           />
         );
 
@@ -436,6 +676,45 @@ export default function App() {
             checks={securityChecks} 
             user={user} 
             onRefresh={fetchAllData} 
+          />
+        );
+
+      case 'intelligence':
+        return (
+          <PoliceIntelligenceSection 
+            requests={intelligenceRequests} 
+            user={user} 
+            onRefresh={fetchAllData} 
+            onGenerateReply={(req) => {
+              setActiveTab('correspondence');
+            }}
+          />
+        );
+
+      case 'correspondence':
+        return (
+          <OfficialCorrespondenceSection 
+            correspondences={correspondences} 
+            user={user} 
+            onRefresh={fetchAllData} 
+          />
+        );
+
+      case 'companies':
+        return (
+          <MonitoredCompaniesSection 
+            companies={monitoredCompanies} 
+            user={user} 
+            onRefresh={fetchAllData} 
+          />
+        );
+
+      case 'developer':
+        return (
+          <DeveloperModule 
+            user={user} 
+            onClose={() => setActiveTab('dashboard')} 
+            onRefreshAllData={fetchAllData} 
           />
         );
 
@@ -540,10 +819,39 @@ export default function App() {
 
   const navItems = [
     { id: 'dashboard', label: 'لوحة التحكم', icon: LayoutDashboard },
+    { 
+      id: 'developer', 
+      label: 'وحدة المطور (تخصيص المنظومة)', 
+      icon: Code2, 
+      badge: 'Super Admin', 
+      badgeColor: 'bg-red-600 text-white font-black' 
+    },
     { id: 'central-search', label: 'البحث المركزي الموحد', icon: Search },
+    { id: 'ports', label: 'المنافذ الـ 13 السيادية', icon: Anchor, badge: ports.length, badgeColor: 'bg-sky-600 text-white font-black' },
     { id: 'passports', label: 'الجوازات والخط الزمني', icon: CreditCard, badge: passports.length },
     { id: 'seizures', label: 'محاضر الضبط بالمنافذ', icon: ShieldAlert, badge: seizures.length },
     { id: 'security', label: 'الفحص الأمني والمطابقة', icon: ShieldCheck },
+    { 
+      id: 'intelligence', 
+      label: 'فرع استخبارات الشرطة (1191/1917)', 
+      icon: ShieldQuestion, 
+      badge: intelligenceRequests.length, 
+      badgeColor: 'bg-red-700 text-white font-black' 
+    },
+    { 
+      id: 'correspondence', 
+      label: 'المكاتبات الرسمية والقوالب', 
+      icon: FileSignature, 
+      badge: correspondences.length, 
+      badgeColor: 'bg-cyan-700 text-white font-bold' 
+    },
+    { 
+      id: 'companies', 
+      label: 'الرقابة على الشركات والوكالات', 
+      icon: FileCheck, 
+      badge: monitoredCompanies.length, 
+      badgeColor: 'bg-violet-700 text-white font-bold' 
+    },
     { 
       id: 'clearances', 
       label: 'الموافقات وتتبع المدد (SLA)', 
@@ -551,10 +859,38 @@ export default function App() {
       badge: clearances.filter(c => c.status === 'قيد الدراسة').length,
       badgeColor: 'bg-indigo-500 text-white font-black'
     },
+    { 
+      id: 'permits', 
+      label: 'تصاريح التنقل والتحرك', 
+      icon: Navigation, 
+      badge: movementPermits.length, 
+      badgeColor: 'bg-indigo-600 text-white font-bold' 
+    },
+    { 
+      id: 'organizations', 
+      label: 'المنظمات والبعثات الدولية', 
+      icon: Globe2, 
+      badge: organizations.length, 
+      badgeColor: 'bg-teal-600 text-white font-bold' 
+    },
+    { 
+      id: 'refugees', 
+      label: 'شؤون اللاجئين والمهاجرين', 
+      icon: Fingerprint, 
+      badge: refugees.length, 
+      badgeColor: 'bg-amber-600 text-white font-bold' 
+    },
     { id: 'deliveries', label: 'سندات وإجراءات التسليم', icon: Send },
     { id: 'offices', label: 'المكاتب والوكالات', icon: Building2, badge: offices.length },
     { id: 'residencies', label: 'الإقامات والتأشيرات', icon: Globe },
     { id: 'excel-tool', label: 'استيراد ومعالجة Excel', icon: FileSpreadsheet },
+    { 
+      id: 'audit-log', 
+      label: 'سجل الرقابة والتدقيق الأمني', 
+      icon: Terminal, 
+      badge: auditLogs.length, 
+      badgeColor: 'bg-rose-600 text-white font-bold' 
+    },
     { id: 'وارد', label: 'المعاملات الواردة', icon: Inbox },
     { id: 'صادر', label: 'المعاملات الصادرة', icon: Send },
     { id: 'daily-summary', label: 'خلاصة الأعمال اليومية', icon: FileText },

@@ -11,9 +11,11 @@ import {
   PlaneTakeoff, 
   Globe, 
   X,
-  CreditCard
+  CreditCard,
+  Sparkles
 } from 'lucide-react';
 import type { ResidencyOrImmigrantRecord, User } from '../types';
+import SmartAIImportModal from './SmartAIImportModal';
 
 interface ResidencySectionProps {
   residencies: ResidencyOrImmigrantRecord[];
@@ -25,6 +27,7 @@ export default function ResidencySection({ residencies, user, onRefresh }: Resid
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<'all' | 'إقامة' | 'تأشيرة' | 'مهاجر / وافد'>('all');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showAIImportModal, setShowAIImportModal] = useState(false);
 
   const [formData, setFormData] = useState({
     type: 'إقامة' as 'إقامة' | 'تأشيرة' | 'مهاجر / وافد',
@@ -98,13 +101,23 @@ export default function ResidencySection({ residencies, user, onRefresh }: Resid
           </p>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-cyan-900/20 transition transform active:scale-95 self-start md:self-auto"
-        >
-          <Plus size={18} />
-          تسجيل قيد جديد
-        </button>
+        <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <button
+            onClick={() => setShowAIImportModal(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-700 hover:from-cyan-700 hover:to-indigo-800 text-white px-4 py-2.5 rounded-xl font-black text-xs shadow-md shadow-blue-900/20 transition transform active:scale-95 cursor-pointer"
+          >
+            <Sparkles size={16} className="text-amber-300 animate-pulse" />
+            <span>استيراد ذكي (Excel / PDF / صورة)</span>
+          </button>
+
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-slate-900/20 transition transform active:scale-95 cursor-pointer"
+          >
+            <Plus size={16} />
+            تسجيل قيد جديد
+          </button>
+        </div>
       </div>
 
       {/* KPI Stats */}
@@ -385,6 +398,17 @@ export default function ResidencySection({ residencies, user, onRefresh }: Resid
           </div>
         </div>
       )}
+
+      {/* نافذة الاستيراد الذكي بالذكاء الاصطناعي */}
+      <SmartAIImportModal
+        isOpen={showAIImportModal}
+        onClose={() => setShowAIImportModal(false)}
+        targetType="visas"
+        onSuccess={() => {
+          onRefresh();
+        }}
+        userOfficerName={user?.name}
+      />
     </div>
   );
 }

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_slate"
+    android:layoutDirection="rtl"
+    android:padding="20dp">
+
+    <!-- بطاقة اختيار الملف -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardUploadArea"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/surface_white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:strokeColor="@color/primary_navy_light"
+        app:strokeWidth="1.5dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/ivUploadIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_yemen_eagle"
+                app:tint="@color/status_success" />
+
+            <TextView
+                android:id="@+id/tvSelectedFileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="انقر لاختيار كشف Excel (.xlsx / .xls)"
+                android:textColor="@color/primary_navy"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvFileInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="المعالج الذكي يتعرف تلقائياً على صف العناوين وأسماء الأعمدة"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- بطاقة الإحصاء الأولي بعد الفحص -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardScanSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/surface_white"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardUploadArea">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="نتائج التحليل الأولي للملف:"
+                android:textColor="@color/primary_navy"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvSummaryValid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="✅ السجلات المكتملة والجاهزة: 0"
+                android:textColor="@color/status_success"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvSummaryWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="⚠️ سجلات بنقص بيانات ثانوية: 0"
+                android:textColor="@color/status_warning"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvSummaryErrors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="❌ سجلات غير صالحة أو مكررة: 0"
+                android:textColor="@color/status_danger"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ProgressBar
+        android:id="@+id/pbParsing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary_navy"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnProceedPreview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardScanSummary" />
+
+    <!-- زر الانتقال للمعاينة والاعتماد -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnProceedPreview"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/primary_navy"
+        android:enabled="false"
+        android:fontFamily="sans-serif-black"
+        android:text="معاينة السجلات واعتماد الاستيراد"
+        android:textColor="@color/surface_white"
+        android:textSize="15sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

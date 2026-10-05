@@ -97,10 +97,27 @@ export default function Login({ onLogin }: LoginProps) {
           >
             {loading ? 'جاري التحقق...' : 'دخول النظام'}
           </button>
+
+          <div className="pt-2 border-t border-slate-100 flex flex-wrap gap-2 text-[11px]">
+            <button
+              type="button"
+              onClick={() => { setUsername('developer'); setPassword('dev'); }}
+              className="flex-1 py-1.5 px-2 bg-red-50 hover:bg-red-100 text-red-700 font-bold rounded-lg border border-red-200 text-center transition"
+            >
+              دخول المطور (Super Admin)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setUsername('admin'); setPassword('123'); }}
+              className="flex-1 py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg border border-slate-200 text-center transition"
+            >
+              دخول مدير النظام (admin)
+            </button>
+          </div>
         </form>
         
         <div className="p-4 bg-gray-50 text-center text-xs text-gray-500 border-t border-gray-100">
-          تنبيه: هذا النظام مخصص للاستخدام الرسمي فقط.
+          تنبيه: هذا النظام مخصص للاستخدام الرسمي السيادي فقط.
         </div>
       </div>
     </div>

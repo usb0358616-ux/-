@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- الثيم الرئيسي لمنظومة الأمن والجوازات - Material Design 2 -->
+    <style name="Theme.PortsSecurity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- الألوان الأساسية -->
+        <item name="colorPrimary">@color/primary_navy</item>
+        <item name="colorPrimaryVariant">@color/primary_navy_dark</item>
+        <item name="colorOnPrimary">@color/surface_white</item>
+
+        <item name="colorSecondary">@color/secondary_gold</item>
+        <item name="colorSecondaryVariant">@color/secondary_gold_dark</item>
+        <item name="colorOnSecondary">@color/primary_navy_dark</item>
+
+        <!-- خلفيات النظام -->
+        <item name="android:colorBackground">@color/background_slate</item>
+        <item name="colorSurface">@color/surface_white</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+
+        <!-- الحالة وشريط النظام -->
+        <item name="android:statusBarColor">@color/primary_navy_dark</item>
+        <item name="android:navigationBarColor">@color/primary_navy_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- دعم اتجاه الواجهة من اليمين لليسار (RTL 100%) -->
+        <item name="android:layoutDirection">rtl</item>
+    </style>
+
+    <!-- ثيم شاشة البداية Splash -->
+    <style name="Theme.PortsSecurity.Splash" parent="Theme.PortsSecurity">
+        <item name="android:windowBackground">@color/primary_navy_dark</item>
+        <item name="android:statusBarColor">@color/primary_navy_dark</item>
+    </style>
+</resources>

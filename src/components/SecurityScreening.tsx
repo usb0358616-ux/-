@@ -10,9 +10,11 @@ import {
   X, 
   FileSearch,
   Filter,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 import type { SecurityCheckRecord, User } from '../types';
+import SmartAIImportModal from './SmartAIImportModal';
 
 interface SecurityScreeningProps {
   checks: SecurityCheckRecord[];
@@ -25,6 +27,7 @@ export default function SecurityScreening({ checks, user, onRefresh }: SecurityS
   const [resultFilter, setResultFilter] = useState<string>('all');
   const [selectedCheck, setSelectedCheck] = useState<SecurityCheckRecord | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showAIImportModal, setShowAIImportModal] = useState(false);
 
   const [formData, setFormData] = useState({
     passportNumber: '',
@@ -97,13 +100,23 @@ export default function SecurityScreening({ checks, user, onRefresh }: SecurityS
           </p>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-emerald-900/20 transition transform active:scale-95 self-start md:self-auto"
-        >
-          <Plus size={18} />
-          تسجيل فحص أمني جديد
-        </button>
+        <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <button
+            onClick={() => setShowAIImportModal(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-slate-900 hover:from-emerald-700 hover:to-teal-800 text-white px-4 py-2.5 rounded-xl font-black text-xs shadow-md shadow-emerald-900/20 transition transform active:scale-95 cursor-pointer"
+          >
+            <Sparkles size={16} className="text-amber-300 animate-pulse" />
+            <span>استيراد ذكي (Excel / PDF / صورة)</span>
+          </button>
+
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-emerald-900/20 transition transform active:scale-95 cursor-pointer"
+          >
+            <Plus size={16} />
+            تسجيل فحص جديد
+          </button>
+        </div>
       </div>
 
       {/* KPI Cards */}
@@ -434,6 +447,17 @@ export default function SecurityScreening({ checks, user, onRefresh }: SecurityS
           </div>
         </div>
       )}
+
+      {/* نافذة استيراد نتائج الفحص بالذكاء الاصطناعي */}
+      <SmartAIImportModal
+        isOpen={showAIImportModal}
+        onClose={() => setShowAIImportModal(false)}
+        targetType="security-checks"
+        onSuccess={() => {
+          onRefresh();
+        }}
+        userOfficerName={user?.name}
+      />
     </div>
   );
 }
