@@ -1,20 +1,36 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# منظومة الأمن والجوازات والمنافذ — الجمهورية اليمنية
+## قطاع استخبارات الشرطة والمنافذ
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+### 📱 أولاً: كيفية فتح وتشغيل تطبيق الأندرويد في Android Studio (مهم جداً)
 
-View your app in AI Studio: https://ai.studio/apps/20c190ff-3972-4c0d-ab12-27aa0f22326d
+هذا المستودع يحتوي على تطبيق أندرويد متكامل وأصلي (**Native Android**) مبني بلغة **Kotlin** مع قواعد بيانات **Room + SQLCipher** ومحرك تقارير **iText 7**.
 
-## Run Locally
+عند استيراد المشروع من **GitHub** عبر برنامج **Android Studio**:
+1. قم بفتح برنامج **Android Studio**.
+2. اختر **File** -> **Open...** (أو **Open an Existing Project** من شاشة البداية).
+3. **⚠️ ملاحظة هامة:** لا تختر المجلد الرئيسي كاملاً، بل توجه داخل المجلد واختر مجلد **`android`** تحديداً (ستلاحظ ظهور أيقونة روبوت أندرويد الأخضر على المجلد).
+4. اضغط **OK** (أو **Open**).
+5. سيبدأ أندرويد ستوديو بمزامنة ملفات **Gradle** تلقائياً وتحميل المكتبات المعتمدة (`iText 7`, `Room`, `SQLCipher`).
+6. يمكنك بعدها الضغط على **Build** -> **Build Bundle(s) / APK(s)** -> **Build APK(s)** لتوليد ملف التثبيت المباشر للهاتف.
 
-**Prerequisites:**  Node.js
+---
 
+### 📂 هيكل المجلدات الرئيسي للمشروع:
+- **`android/`**: مشروع الأندرويد الكامل والأصلي (Kotlin, Gradle, Room, AndroidManifest, iText 7 Reports).
+- **`src/`**: واجهة الاستعراض السحابية ولوحة التحكم المركزية (React + TypeScript).
+- **`server.ts`**: خادم المنظومة السحابي والـ API المشفر.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+
+### 💻 ثانياً: تشغيل الواجهة السحابية محلياً (Web Preview):
+1. تثبيت الحزم:
+   ```bash
+   npm install
+   ```
+2. تشغيل السيرفر:
+   ```bash
+   npm run dev
+   ```
+3. فتح الرابط: `http://localhost:3000`

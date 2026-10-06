@@ -278,4 +278,53 @@ object SeedData {
             it.action == "view" || it.action == "create" || it.permissionCode == "excel.import"
         }
         .map { RolePermissionCrossRef(roleId = ROLE_DATA_ENTRY_ID, permissionId = it.id) }
+
+    // 6. خدمات كتالوج وزارة الداخلية الـ 15 الرسمية (SLA Catalog)
+    val slaPolicies = listOf(
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 1, serviceCode = "NAT-01", serviceName = "زواج يمني من أجنبية", department = "الإدارة العامة للجنسية", targetDays = 20
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 2, serviceCode = "NAT-02", serviceName = "زواج أجنبي من يمنية", department = "الإدارة العامة للجنسية", targetDays = 20
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 3, serviceCode = "NAT-03", serviceName = "طلب اكتساب الجنسية لزوجة يمني", department = "الإدارة العامة للجنسية", targetDays = 20
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 4, serviceCode = "NAT-04", serviceName = "طلب الجنسية بأمر جمهوري", department = "الإدارة العامة للجنسية", targetDays = 30
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 5, serviceCode = "NAT-05", serviceName = "طلب إذن اكتساب جنسية أجنبية", department = "الإدارة العامة للجنسية", targetDays = 20
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 6, serviceCode = "FOR-01", serviceName = "طلب تأشيرة دخول", department = "الإدارة العامة لشؤون العرب والأجانب", targetDays = 7
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 7, serviceCode = "FOR-02", serviceName = "طلب إقامة لأول مرة", department = "الإدارة العامة لشؤون العرب والأجانب", targetDays = 7
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 8, serviceCode = "FOR-03", serviceName = "تجديد إقامة", department = "الإدارة العامة لشؤون العرب والأجانب", targetDays = 3
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 9, serviceCode = "FOR-04", serviceName = "طلب إذن دخول لأول مرة", department = "الإدارة العامة لشؤون العرب والأجانب", targetDays = 7
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 10, serviceCode = "FOR-05", serviceName = "تجديد إذن دخول", department = "الإدارة العامة لشؤون العرب والأجانب", targetDays = 3
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 11, serviceCode = "REF-01", serviceName = "تسجيل طلب لجوء", department = "الإدارة العامة لشؤون اللاجئين", targetDays = 3
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 12, serviceCode = "REF-02", serviceName = "تجديد طلب لجوء", department = "الإدارة العامة لشؤون اللاجئين", targetDays = 3
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 13, serviceCode = "DOC-01", serviceName = "طلب وثائق سفر للإخوة الفلسطينيين", department = "الإدارة العامة لوثائق السفر", targetDays = 3
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 14, serviceCode = "DOC-02", serviceName = "تجديد وثائق السفر للفلسطينيين", department = "الإدارة العامة لوثائق السفر", targetDays = 3
+        ),
+        com.yemen.portssecurity.data.local.entities.SlaPolicyEntity(
+            id = 15, serviceCode = "DOC-03", serviceName = "منح جوازات سفر لأبناء اليمنيات", department = "الإدارة العامة لوثائق السفر", targetDays = 3
+        )
+    )
 }

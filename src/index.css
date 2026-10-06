@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
 
 @theme {
   --font-sans: "Cairo", ui-sans-serif, system-ui, sans-serif;

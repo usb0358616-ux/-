@@ -299,9 +299,9 @@ export default function DeveloperModule({ user, onClose, onRefreshAllData }: Dev
         entity_type: entity as EntityType,
         field_key: fKey,
         original_label: originalField?.label_ar || fKey,
-        new_label: newLabel
+        new_label: String(newLabel)
       };
-    }).filter(item => item.new_label.trim().length > 0);
+    }).filter(item => String(item.new_label).trim().length > 0);
 
     if (editsToSave.length === 0) {
       showNoticeMsg('لا توجد تعديلات محفوظة للتسميات', 'warning');
@@ -1762,9 +1762,18 @@ export default function DeveloperModule({ user, onClose, onRefreshAllData }: Dev
 
             <form onSubmit={handleExecuteConfirmedAction} className="space-y-4">
               <div>
-                <label className="font-bold text-slate-700 block mb-1">
-                  أدخل كلمة مرور المطور لتأكيد الصلاحية:
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="font-bold text-slate-700">
+                    أدخل كلمة مرور المطور لتأكيد الصلاحية:
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmPassword('dev')}
+                    className="text-[10px] text-red-600 hover:text-red-800 font-bold bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded border border-red-200 cursor-pointer"
+                  >
+                    تعبئة تلقائية (dev)
+                  </button>
+                </div>
                 <input
                   type="password"
                   required
@@ -1801,7 +1810,7 @@ export default function DeveloperModule({ user, onClose, onRefreshAllData }: Dev
       {/* ==================================================== */}
       {showAddListModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-xs">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-xs max-h-[90vh] overflow-y-auto">
             <h3 className="font-black text-slate-900 text-base mb-1">إنشاء قائمة اختيار جديدة</h3>
             <p className="text-slate-400 mb-4">تتيح إضافة قوائم مخصصة لربطها بالحقول المنسدلة</p>
 
@@ -1866,7 +1875,7 @@ export default function DeveloperModule({ user, onClose, onRefreshAllData }: Dev
       {/* ==================================================== */}
       {showAddValueModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-xs">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-xs max-h-[90vh] overflow-y-auto">
             <h3 className="font-black text-slate-900 text-base mb-1">إضافة قيمة جديدة للقائمة</h3>
             <p className="text-slate-400 mb-4 font-mono">القائمة: {selectedListCode}</p>
 

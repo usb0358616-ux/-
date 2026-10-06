@@ -50,6 +50,25 @@ export default function SeizureRecords({ seizures, user, onRefresh }: SeizureRec
     notes: ''
   });
 
+  const handleAutoGenerateRecordNumber = async () => {
+    try {
+      const res = await fetch('/api/auto-field-rules/generate-next?entity=seizure&field=recordNumber');
+      const data = await res.json();
+      if (data.generated) {
+        setFormData(prev => ({ ...prev, recordNumber: data.generated }));
+      }
+    } catch (err) {
+      console.error('Failed to generate record number', err);
+    }
+  };
+
+  const handleOpenAddModal = () => {
+    setShowAddModal(true);
+    if (!formData.recordNumber) {
+      handleAutoGenerateRecordNumber();
+    }
+  };
+
   const filteredSeizures = seizures.filter(s => 
     s.recordNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
     s.portName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -135,7 +154,7 @@ export default function SeizureRecords({ seizures, user, onRefresh }: SeizureRec
           </button>
 
           <button
-            onClick={() => setShowAddModal(true)}
+            onClick={handleOpenAddModal}
             className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-purple-900/20 transition transform active:scale-95 cursor-pointer"
           >
             <Plus size={16} />
@@ -284,13 +303,23 @@ export default function SeizureRecords({ seizures, user, onRefresh }: SeizureRec
             <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    رقم المحضر الرسمي <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-slate-700">
+                      رقم المحضر الرسمي <span className="text-red-500">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={handleAutoGenerateRecordNumber}
+                      className="text-[11px] text-purple-700 hover:text-purple-900 font-bold flex items-center gap-1 hover:underline cursor-pointer"
+                    >
+                      <Sparkles size={12} className="text-purple-600" />
+                      ترقيم تلقائي (وحدة المطور)
+                    </button>
+                  </div>
                   <input
                     type="text"
                     required
-                    placeholder="مثال: 889/و/2026"
+                    placeholder="مثال: محضر-2026-00089"
                     value={formData.recordNumber}
                     onChange={(e) => setFormData({ ...formData, recordNumber: e.target.value })}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold font-mono focus:ring-2 focus:ring-purple-500"

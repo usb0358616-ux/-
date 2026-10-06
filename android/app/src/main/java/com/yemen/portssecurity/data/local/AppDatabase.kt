@@ -6,21 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.yemen.portssecurity.core.security.SQLCipherHelper
-import com.yemen.portssecurity.data.local.dao.AuditLogDao
-import com.yemen.portssecurity.data.local.dao.RolePermissionDao
-import com.yemen.portssecurity.data.local.dao.UserDao
-import com.yemen.portssecurity.data.local.entities.AuditLogEntity
-import com.yemen.portssecurity.data.local.entities.PermissionEntity
-import com.yemen.portssecurity.data.local.entities.RoleEntity
-import com.yemen.portssecurity.data.local.entities.RolePermissionCrossRef
-import com.yemen.portssecurity.data.local.entities.UserEntity
-import com.yemen.portssecurity.data.local.entities.UserRoleCrossRef
+import com.yemen.portssecurity.data.local.dao.*
+import com.yemen.portssecurity.data.local.entities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
  * قاعدة البيانات المركزية المشفرة بـ SQLCipher (AppDatabase)
+ * تتضمن كافة الكيانات السيادية الـ 14 ووحدة المطور
  */
 @Database(
     entities = [
@@ -29,9 +23,28 @@ import kotlinx.coroutines.launch
         PermissionEntity::class,
         RolePermissionCrossRef::class,
         UserRoleCrossRef::class,
-        AuditLogEntity::class
+        AuditLogEntity::class,
+        SeizureRecordEntity::class,
+        SeizedPassportEntity::class,
+        SeizureOperationEntity::class,
+        SeizureDeliveryEntity::class,
+        PoliceIntelligenceEntity::class,
+        OfficialCorrespondenceEntity::class,
+        MonitoredCompanyEntity::class,
+        CompanyViolationEntity::class,
+        SlaPolicyEntity::class,
+        SecurityClearanceEntity::class,
+        PassportTimelineEntity::class,
+        FieldDefinitionEntity::class,
+        CustomFieldValueEntity::class,
+        LabelOverrideEntity::class,
+        ListDefinitionEntity::class,
+        ListValueEntity::class,
+        AutoFieldRuleEntity::class,
+        PrintTemplateEntity::class,
+        SchemaSnapshotEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -39,6 +52,13 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun rolePermissionDao(): RolePermissionDao
     abstract fun auditLogDao(): AuditLogDao
+    abstract fun seizureDao(): SeizureDao
+    abstract fun policeIntelligenceDao(): PoliceIntelligenceDao
+    abstract fun officialCorrespondenceDao(): OfficialCorrespondenceDao
+    abstract fun monitoredCompanyDao(): MonitoredCompanyDao
+    abstract fun slaPolicyDao(): SlaPolicyDao
+    abstract fun passportTimelineDao(): PassportTimelineDao
+    abstract fun developerMetadataDao(): DeveloperMetadataDao
 
     companion object {
         private const val DATABASE_NAME = "ports_security_encrypted.db"

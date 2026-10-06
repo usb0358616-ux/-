@@ -1211,6 +1211,28 @@ export function registerDeveloperRoutes(
     res.json({ generated, nextCounter: nextVal });
   });
 
+  // توليد الرقم القادم آلياً لأي كيان وحقل
+  app.get('/api/auto-field-rules/generate-next', (req: Request, res: Response) => {
+    const { entity, field } = req.query;
+    const rule = autoFieldRules.find(r => r.entity_type === entity && r.field_key === field && r.is_active);
+    if (!rule) {
+      return res.json({ generated: null, nextCounter: null });
+    }
+    const nextVal = (rule.current_counter || 0) + 1;
+    const generated = evaluateAutoPattern(rule.rule_pattern, nextVal, rule.counter_padding || 5);
+    res.json({ generated, nextCounter: nextVal, ruleId: rule.id });
+  });
+
+  // زيادة العداد بعد استخدام الرقم
+  app.post('/api/auto-field-rules/increment-counter', (req: Request, res: Response) => {
+    const { entity, field } = req.body;
+    const rule = autoFieldRules.find(r => r.entity_type === entity && r.field_key === field);
+    if (rule) {
+      rule.current_counter = (rule.current_counter || 0) + 1;
+    }
+    res.json({ success: true, current_counter: rule?.current_counter });
+  });
+
   // --- 6. قوالب الطباعة print_templates ---
   app.get('/api/print-templates', (req: Request, res: Response) => {
     const { entity } = req.query;

@@ -400,6 +400,11 @@
             android:exported="false"
             android:label="@string/title_sla_dashboard" />
 
+        <activity
+            android:name=".presentation.reports.OfficialPdfReportsActivity"
+            android:exported="false"
+            android:label="وحدة توليد التقارير الرسمية (PDF iText 7)" />
+
         <!-- إدارة النظام والمستخدمين والنسخ الاحتياطي -->
         <activity
             android:name=".presentation.admin.UsersManagementActivity"
@@ -419,6 +424,14 @@
             android:name=".presentation.admin.SettingsActivity"
             android:exported="false"
             android:label="@string/title_settings" />
+
+        <!-- ======================================================== -->
+        <!-- الوحدة 14: وحدة المطور وتخصيص المنظومة (Super Admin)         -->
+        <!-- ======================================================== -->
+        <activity
+            android:name=".presentation.developer.DeveloperModuleActivity"
+            android:exported="false"
+            android:label="وحدة المطور (تخصيص المنظومة)" />
 
     </application>
 

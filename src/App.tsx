@@ -813,7 +813,7 @@ export default function App() {
         return <DailySummary onRefreshDocs={fetchDocuments} />;
 
       case 'reports':
-        return <Reports documents={documents} />;
+        return <Reports documents={documents} seizures={seizures} passports={passports} />;
     }
   };
 
@@ -932,7 +932,7 @@ export default function App() {
                 <item.icon size={19} className={item.id === 'archive' && activeTab !== 'archive' ? 'text-amber-400' : ''} />
                 {sidebarOpen && <span className="truncate">{item.label}</span>}
               </div>
-              {sidebarOpen && item.badge !== undefined && item.badge > 0 && (
+              {sidebarOpen && item.badge !== undefined && (typeof item.badge === 'number' ? item.badge > 0 : Boolean(item.badge)) && (
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
                   item.badgeColor || 'bg-blue-500/20 text-blue-300'
                 }`}>
