@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK (Capacitor)
 
 on:
   workflow_dispatch:
@@ -12,49 +12,43 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Diagnose Android folder structure
-      run: |
-        echo "===== محتوى مجلد android ====="
-        ls -la ./android
-        echo ""
-        echo "===== البحث عن ملفات gradle داخل android ====="
-        find ./android -name "*.gradle*" -type f 2>/dev/null
-        echo ""
-        echo "===== البحث عن gradlew داخل android ====="
-        find ./android -name "gradlew" -type f 2>/dev/null || echo "gradlew غير موجود"
-
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build web assets
+      run: npm run build
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
 
     - name: Accept Android SDK licenses
-      run: |
-        SDKMANAGER=$(find $ANDROID_HOME -name sdkmanager -type f 2>/dev/null | head -n 1)
-        yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+      run: yes | sdkmanager --licenses > /dev/null 2>&1 || true
+
+    - name: Sync Capacitor
+      run: npx cap sync android
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-version: '8.7'
 
     - name: Create local.properties
-      run: echo "sdk.dir=$ANDROID_HOME" > ./android/local.properties
+      run: echo "sdk.dir=$ANDROID_HOME" > android/local.properties
 
     - name: Build Debug APK
       working-directory: ./android
-      run: |
-        if [ -f "./gradlew" ]; then
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --stacktrace --no-daemon
-        else
-          echo "استخدام Gradle المثبت عالمياً لأن gradlew غير موجود..."
-          gradle assembleDebug --stacktrace --no-daemon
-        fi
+      run: ./gradlew assembleDebug --stacktrace --no-daemon
 
     - name: Upload APK
-      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
