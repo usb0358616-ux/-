@@ -1,9 +1,9 @@
 name: Build Android APK
 
 on:
-  workflow_dispatch: # يسمح بتشغيل البناء يدويًا من واجهة GitHub
+  workflow_dispatch:
   push:
-    branches: [ main, master ] # يعمل تلقائيًا عند الرفع إلى الفرع الرئيسي
+    branches: [ main, master ]
 
 jobs:
   build:
@@ -19,18 +19,26 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+    - name: Accept Android SDK licenses
+      run: |
+        # البحث عن أداة sdkmanager داخل SDK المثبت مسبقًا
+        SDKMANAGER=$(find $ANDROID_HOME -name sdkmanager -type f 2>/dev/null | head -n 1)
+        echo "Using sdkmanager at: $SDKMANAGER"
+        # قبول كل التراخيص تلقائيًا
+        yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+
+    - name: Create local.properties
+      run: echo "sdk.dir=$ANDROID_HOME" > ./android/local.properties
 
     - name: Grant execute permission for gradlew
-      run: chmod +x ./android/gradlew # منح صلاحية التنفيذ لملف Gradle
+      run: chmod +x ./android/gradlew
 
     - name: Build Debug APK
-      working-directory: ./android # تحديد مجلد العمل كمجلد الأندرويد
-      run: ./gradlew assembleDebug --stacktrace
+      working-directory: ./android
+      run: ./gradlew assembleDebug --stacktrace --no-daemon
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: android/app/build/outputs/apk/debug/app-debug.apk # مسار ملف APK الناتج
+        path: android/app/build/outputs/apk/debug/app-debug.apk
