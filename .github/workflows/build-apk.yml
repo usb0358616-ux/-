@@ -18,16 +18,10 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Accept Android SDK licenses and install packages
+    - name: Install Android SDK packages
       run: |
-        # البحث عن sdkmanager في بيئة GitHub
         SDKMANAGER=$(find $ANDROID_HOME -name sdkmanager -type f | head -n 1)
-        echo "Using sdkmanager at: $SDKMANAGER"
-        
-        # قبول كافة التراخيص تلقائياً
         yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
-        
-        # تثبيت الحزم المطلوبة لمشروعك (Android 33 و Build Tools)
         "$SDKMANAGER" "platforms;android-33" "build-tools;33.0.2" "platform-tools"
 
     - name: Setup Gradle
@@ -39,23 +33,43 @@ jobs:
       run: |
         echo "sdk.dir=$ANDROID_HOME" > ./android/local.properties
         cat > ./android/gradle.properties <<EOF
-        org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+        org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8
+        org.gradle.parallel=true
+        org.gradle.caching=true
         android.useAndroidX=true
         android.enableJetifier=true
         kotlin.code.style=official
         EOF
 
+    - name: Check for required resources
+      run: |
+        echo "===== البحث عن themes.xml أو styles.xml ====="
+        find ./android/app/src/main/res -name "themes.xml" -o -name "styles.xml" || echo "مفقود!"
+        echo "===== البحث عن file_paths.xml ====="
+        find ./android/app/src/main/res -name "file_paths.xml" || echo "مفقود!"
+        echo "===== البحث عن data_extraction_rules.xml ====="
+        find ./android/app/src/main/res -name "data_extraction_rules.xml" || echo "مفقود!"
+
     - name: Build Debug APK
+      id: build_apk
       working-directory: ./android
       run: |
+        # نوجه السجل لملف صغير لتسهيل قراءته
         if [ -f "./gradlew" ]; then
           chmod +x ./gradlew
-          ./gradlew assembleDebug --stacktrace --no-daemon
+          ./gradlew assembleDebug --stacktrace --no-daemon > build_error_log.txt 2>&1
         else
-          gradle assembleDebug --stacktrace --no-daemon
+          gradle assembleDebug --stacktrace --no-daemon > build_error_log.txt 2>&1
         fi
 
-    - name: Upload APK
+    - name: Upload Build Log (في حال الفشل)
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-error-log
+        path: android/build_error_log.txt
+
+    - name: Upload APK (في حال النجاح)
       if: success()
       uses: actions/upload-artifact@v4
       with:
