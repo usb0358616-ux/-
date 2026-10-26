@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- قياسات الأجهزة اللوحية الكبيرة (10 بوصة وأكثر - sw720dp) -->
+    <dimen name="screen_padding_horizontal">32dp</dimen>
+    <dimen name="screen_padding_vertical">28dp</dimen>
+    <dimen name="card_margin">14dp</dimen>
+    <dimen name="card_padding">20dp</dimen>
+    <dimen name="card_corner_radius">18dp</dimen>
+    <dimen name="card_dashboard_height">150dp</dimen>
+
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="input_field_margin">20dp</dimen>
+
+    <dimen name="text_title">24sp</dimen>
+    <dimen name="text_subtitle">18sp</dimen>
+    <dimen name="text_body">15sp</dimen>
+    <dimen name="text_caption">13sp</dimen>
+
+    <dimen name="nav_drawer_width">380dp</dimen>
+    <dimen name="dialog_max_width">600dp</dimen>
+    <dimen name="content_max_width">850dp</dimen>
+</resources>

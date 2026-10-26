@@ -26,14 +26,23 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
+    <!-- دعم وتوافقية جميع الشاشات (الهواتف والتابلت 7 و10 بوصة والأجهزة القابلة للطي) -->
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"
+        android:resizeable="true" />
+
     <application
         android:name=".PortsSecurityApp"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_yemen_eagle"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_yemen_eagle"
         android:supportsRtl="true"
         android:theme="@style/Theme.PortsSecurity"
         android:requestLegacyExternalStorage="true"
@@ -51,7 +60,7 @@
         </provider>
 
         <!-- ======================================================== -->
-        <!-- المرحلة 3: شاشات الدخول والمصادقة السيادية                 -->
+        <!-- شاشات الدخول والمصادقة السيادية                             -->
         <!-- ======================================================== -->
 
         <!-- شاشة البداية والتحميل والتحقق من التشفير -->
@@ -73,14 +82,16 @@
         <activity
             android:name=".presentation.auth.ForgotPasswordActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".presentation.auth.LoginActivity" />
 
         <activity
             android:name=".presentation.auth.ChangePasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- ======================================================== -->
-        <!-- المرحلة 4: الشاشة الرئيسية ولوحة القيادة                   -->
+        <!-- الشاشة الرئيسية ولوحة القيادة                               -->
         <!-- ======================================================== -->
 
         <activity
@@ -89,297 +100,92 @@
             android:windowSoftInputMode="adjustPan" />
 
         <!-- ======================================================== -->
-        <!-- الوحدة 1: إدارة المسافرين                                -->
+        <!-- الوحدات السيادية الـ 14                                    -->
         <!-- ======================================================== -->
 
+        <!-- الوحدة 1: إدارة المسافرين -->
         <activity
             android:name=".presentation.passengers.PassengersListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_passengers_list" />
 
-        <activity
-            android:name=".presentation.passengers.PassengerDossierActivity"
-            android:exported="false"
-            android:label="@string/title_passenger_dossier" />
-
-        <activity
-            android:name=".presentation.passengers.AddEditPassengerActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.passengers.SecurityCheckActivity"
-            android:exported="false"
-            android:label="@string/title_security_check" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 2: محاضر الضبط والجوازات المحتجزة (الأكثر استخداماً)  -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 2: محاضر الضبط والجوازات المحتجزة واستيراد Excel -->
         <activity
             android:name=".presentation.seizures.SeizuresListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_seizures_list" />
-
-        <activity
-            android:name=".presentation.seizures.SeizureRecordActivity"
-            android:exported="false"
-            android:label="@string/title_seizure_record" />
-
-        <activity
-            android:name=".presentation.seizures.AddSeizedPassportActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.seizures.SeizureOperationsActivity"
-            android:exported="false"
-            android:label="@string/title_seizure_operations" />
-
-        <activity
-            android:name=".presentation.seizures.DeliveryActivity"
-            android:exported="false"
-            android:label="@string/title_passport_delivery" />
 
         <activity
             android:name=".presentation.seizures.ImportExcelActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_import_excel" />
 
         <activity
             android:name=".presentation.seizures.ImportPreviewActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_import_preview" />
 
-        <!-- ======================================================== -->
-        <!-- الوحدة 3: المهاجرون غير الشرعيين                         -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 3: المهاجرون غير الشرعيين -->
         <activity
             android:name=".presentation.migrants.MigrantsListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_migrants_list" />
 
-        <activity
-            android:name=".presentation.migrants.AddMigrantActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.migrants.MigrantOperationsActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 4: المنافذ الـ 13 الرسمية                           -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 4: المنافذ السيادية الـ 13 -->
         <activity
             android:name=".presentation.ports.PortsListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_ports_list" />
 
-        <activity
-            android:name=".presentation.ports.PortDetailsActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 5: اللاجئون وتصاريح اللجوء المؤقتة                -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 5: اللاجئون وتصاريح اللجوء المؤقتة -->
         <activity
             android:name=".presentation.refugees.RefugeesListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_refugees_list" />
 
-        <activity
-            android:name=".presentation.refugees.RefugeeDossierActivity"
-            android:exported="false"
-            android:label="@string/title_refugee_dossier" />
-
-        <activity
-            android:name=".presentation.refugees.AddEditRefugeeActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.refugees.AddRelativeActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.refugees.AddCriminalRecordActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.refugees.IssuePermitActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.refugees.PermitCardActivity"
-            android:exported="false"
-            android:label="@string/title_permit_card" />
-
-        <activity
-            android:name=".presentation.refugees.RejectRefugeeActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 6: الوافدون الأجانب                                -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 6: الوافدون الأجانب -->
         <activity
             android:name=".presentation.foreigners.ForeignersListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_foreigners_list" />
 
-        <activity
-            android:name=".presentation.foreigners.ForeignerDossierActivity"
-            android:exported="false"
-            android:label="@string/title_foreigner_dossier" />
-
-        <activity
-            android:name=".presentation.foreigners.AddForeignerActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.foreigners.ForeignerMedicalActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 7: تصاريح التنقل الداخلي                          -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 7: تصاريح التنقل والتحرك الداخلي -->
         <activity
             android:name=".presentation.movement.MovementPermitsListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_movement_permits" />
 
-        <activity
-            android:name=".presentation.movement.MovementPermitActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.movement.AddCompanionActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.movement.AddAccommodationActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.movement.PrintMovementPermitActivity"
-            android:exported="false"
-            android:label="@string/title_print_movement_permit" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 8: التأشيرات والإقامات وتتبع الـ SLA               -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 8: التأشيرات والإقامات وكتالوج الـ 15 خدمة -->
         <activity
             android:name=".presentation.visas.VisasListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_visas_list" />
 
-        <activity
-            android:name=".presentation.visas.VisaApplicationActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.visas.ResidencyListActivity"
-            android:exported="false"
-            android:label="@string/title_residency_list" />
-
-        <activity
-            android:name=".presentation.visas.ResidencyApplicationActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.visas.ResidencyRenewalActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.visas.EntryPermitActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.visas.YemeniVisasListActivity"
-            android:exported="false"
-            android:label="@string/title_yemeni_visas" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 9: الجنسية والزواج                                -->
-        <!-- ======================================================== -->
-
-        <activity
-            android:name=".presentation.nationality.MarriageRequestActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.nationality.NationalityRequestActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.nationality.NationalityByDecreeActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 10: وثائق السفر                                   -->
-        <!-- ======================================================== -->
-
-        <activity
-            android:name=".presentation.traveldocs.TravelDocumentsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.traveldocs.PalestinianDocsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.traveldocs.YemeniChildrenPassportsActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 11: شركات الحج والعمرة                            -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 11: الرقابة على شركات الحج والصرافة والتوظيف -->
         <activity
             android:name=".presentation.hajj.HajjCompaniesListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_hajj_companies" />
 
-        <activity
-            android:name=".presentation.hajj.CompanySecurityCheckActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.hajj.CompanySuspensionActivity"
-            android:exported="false" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 12: المذكرات والبرقيات الرسمية (نظام القوالب التلقائي) -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 12: المكاتبات والمراسلات والبرقيات الرسمية -->
         <activity
             android:name=".presentation.correspondence.MemorandaListActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_memoranda_list" />
 
-        <activity
-            android:name=".presentation.correspondence.MemorandumEditorActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.correspondence.MemorandumViewActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.correspondence.TelegramActivity"
-            android:exported="false"
-            android:label="@string/title_telegram" />
-
-        <!-- ======================================================== -->
-        <!-- الوحدة 13: التقارير والإحصاءات وسجل العمليات             -->
-        <!-- ======================================================== -->
-
+        <!-- الوحدة 13: التقارير ولوحات المتابعة وتتبع SLA -->
         <activity
             android:name=".presentation.reports.DashboardActivity"
             android:exported="false"
@@ -388,41 +194,49 @@
         <activity
             android:name=".presentation.reports.ReportsActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_reports" />
-
-        <activity
-            android:name=".presentation.reports.AuditLogActivity"
-            android:exported="false"
-            android:label="@string/title_audit_log" />
-
-        <activity
-            android:name=".presentation.reports.SLADashboardActivity"
-            android:exported="false"
-            android:label="@string/title_sla_dashboard" />
 
         <activity
             android:name=".presentation.reports.OfficialPdfReportsActivity"
             android:exported="false"
             android:label="وحدة توليد التقارير الرسمية (PDF iText 7)" />
 
-        <!-- إدارة النظام والمستخدمين والنسخ الاحتياطي -->
+        <activity
+            android:name=".presentation.reports.SLADashboardActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/title_sla_dashboard" />
+
+        <!-- إدارة النظام والمستخدمين والنسخ الاحتياطي والأدوار -->
+        <activity
+            android:name=".presentation.admin.AuditLogActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/title_audit_log" />
+
         <activity
             android:name=".presentation.admin.UsersManagementActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_users_management" />
 
         <activity
             android:name=".presentation.admin.RolesPermissionsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:label="مصفوفة الأدوار والصلاحيات (RBAC)" />
 
         <activity
             android:name=".presentation.admin.BackupRestoreActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_backup_restore" />
 
         <activity
             android:name=".presentation.admin.SettingsActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_settings" />
 
         <!-- ======================================================== -->
@@ -431,6 +245,7 @@
         <activity
             android:name=".presentation.developer.DeveloperModuleActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:label="وحدة المطور (تخصيص المنظومة)" />
 
     </application>

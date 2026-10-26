@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { X, Printer, Download, FileText, Sparkles, Archive, RotateCcw, Clock } from 'lucide-react';
+import { X, Printer, Download, FileText, Sparkles, Archive, RotateCcw, Clock, PenTool, ShieldCheck, CheckCircle2, Stamp } from 'lucide-react';
 import Header from './Header';
 import type { Document } from '../types';
 import ReferralFormModal from './ReferralFormModal';
 import FileContentExtractor from './FileContentExtractor';
+import DocumentSignatureModal from './DocumentSignatureModal';
 
 interface DocumentDetailProps {
   doc: Document;
@@ -23,6 +24,7 @@ export default function DocumentDetail({
   const [doc, setDoc] = useState<Document>(initialDoc);
   const [activeView, setActiveView] = useState<'memo' | 'content'>(defaultTab);
   const [showReferralModal, setShowReferralModal] = useState(false);
+  const [showSignModal, setShowSignModal] = useState(false);
 
   const handleDocUpdate = (updated: Document) => {
     setDoc(updated);
@@ -109,6 +111,30 @@ export default function DocumentDetail({
                   <>
                     <Archive size={14} />
                     نقل للأرشيف
+                  </>
+                )}
+              </button>
+            )}
+
+            {doc.type === 'صادر' && (
+              <button 
+                onClick={() => setShowSignModal(true)}
+                className={`btn-access !h-8 text-xs flex items-center gap-1.5 transition ${
+                  doc.digitalSignature?.isSigned 
+                    ? '!bg-emerald-800 hover:!bg-emerald-900 !text-white' 
+                    : '!bg-emerald-600 hover:!bg-emerald-700 !text-white shadow-xs'
+                }`}
+                title="توقيع المستند رقمياً بواسطة لوحة القلم (Canvas)"
+              >
+                {doc.digitalSignature?.isSigned ? (
+                  <>
+                    <ShieldCheck size={14} className="text-emerald-300" />
+                    <span>موقع رقمياً (تعديل)</span>
+                  </>
+                ) : (
+                  <>
+                    <PenTool size={14} />
+                    <span>توقيع رقمي للمستند</span>
                   </>
                 )}
               </button>
@@ -216,14 +242,80 @@ export default function DocumentDetail({
                   )}
 
                   {/* Signatures Area */}
-                  <div className="mt-16 grid grid-cols-2 gap-24">
+                  <div className="mt-16 grid grid-cols-2 gap-16 items-start">
+                    {/* Official Office Stamp */}
                     <div className="text-center">
-                      <p className="font-bold underline mb-10">ختم المكتب</p>
-                      <div className="w-28 h-28 border-2 border-slate-300 rounded-full mx-auto opacity-30"></div>
+                      <p className="font-bold underline mb-6 text-slate-800">ختم المكتب السيادي</p>
+                      <div className="w-32 h-32 border-2 border-dashed border-slate-300 rounded-full mx-auto flex flex-col items-center justify-center p-2 opacity-60">
+                        <div className="w-24 h-24 border border-slate-400 rounded-full flex flex-col items-center justify-center text-[10px] text-slate-600 font-bold leading-tight">
+                          <span>الجمهورية اليمنية</span>
+                          <span className="text-[8px] text-slate-500 my-0.5">وزارة الداخلية</span>
+                          <span>مصلحة الهجرة والجوازات</span>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Official Officer Signature */}
                     <div className="text-center">
-                      <p className="font-bold underline mb-10">توقيع المسؤول</p>
-                      <p className="text-slate-400 italic">................................</p>
+                      <p className="font-bold underline mb-4 text-slate-800">توقيع المسؤول ومصادقته</p>
+
+                      {doc.digitalSignature?.isSigned && doc.digitalSignature.signatureImage ? (
+                        <div className="flex flex-col items-center">
+                          {/* Canvas Drawn Signature Image */}
+                          <div className="relative p-1 bg-white/70 rounded-xl">
+                            <img 
+                              src={doc.digitalSignature.signatureImage} 
+                              alt="التوقيع الرقمي للمسؤول" 
+                              className="h-20 max-w-[220px] object-contain mx-auto filter drop-shadow-xs" 
+                            />
+                          </div>
+
+                          <div className="mt-1.5 text-center">
+                            <p className="font-bold text-slate-900 text-sm font-sans">{doc.digitalSignature.signedBy}</p>
+                            <p className="text-slate-600 text-xs font-semibold font-sans">{doc.digitalSignature.signedByRank}</p>
+                          </div>
+
+                          {/* Security Verification Badge */}
+                          <div className="mt-2 inline-flex flex-col items-center px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-300 text-[10px] text-emerald-950 font-sans shadow-xs">
+                            <div className="flex items-center gap-1 font-black text-emerald-700">
+                              <ShieldCheck size={13} />
+                              <span>معتمد وموقع رقمياً (Canvas API)</span>
+                            </div>
+                            <span className="font-mono text-slate-600 font-bold mt-0.5">{doc.digitalSignature.verificationCode}</span>
+                            <span className="text-slate-400 text-[9px]">{doc.digitalSignature.signedAt}</span>
+                          </div>
+
+                          {/* Re-sign button on screen */}
+                          <div className="mt-2 no-print">
+                            <button
+                              type="button"
+                              onClick={() => setShowSignModal(true)}
+                              className="text-[11px] text-blue-600 hover:text-blue-800 font-bold underline transition"
+                            >
+                              إعادة التوقيع أو التعديل
+                            </button>
+                          </div>
+                        </div>
+                      ) : doc.type === 'صادر' ? (
+                        <div className="flex flex-col items-center">
+                          <div 
+                            onClick={() => setShowSignModal(true)}
+                            className="w-full max-w-xs border-2 border-dashed border-emerald-400 hover:border-emerald-600 bg-emerald-50/40 hover:bg-emerald-50 p-4 rounded-2xl cursor-pointer transition flex flex-col items-center justify-center gap-1.5 group no-print shadow-xs"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
+                              <PenTool size={20} />
+                            </div>
+                            <span className="text-xs font-black text-emerald-800">انقر هنا لتوقيع المستند الصادر رقمياً</span>
+                            <span className="text-[10px] text-slate-500 font-sans">باستخدام لوحة القلم الرقمي الحي (Canvas)</span>
+                          </div>
+
+                          <p className="text-slate-400 italic hidden print:block pt-8">................................</p>
+                        </div>
+                      ) : (
+                        <div className="py-6">
+                          <p className="text-slate-400 italic">................................</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -263,6 +355,17 @@ export default function DocumentDetail({
         <ReferralFormModal 
           doc={doc}
           onClose={() => setShowReferralModal(false)}
+        />
+      )}
+
+      {showSignModal && (
+        <DocumentSignatureModal
+          doc={doc}
+          onClose={() => setShowSignModal(false)}
+          onSuccess={(updated) => {
+            handleDocUpdate(updated);
+            setShowSignModal(false);
+          }}
         />
       )}
     </div>

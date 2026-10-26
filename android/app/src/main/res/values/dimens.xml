@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- القياسات القياسية للهواتف الذكية -->
+    <dimen name="screen_padding_horizontal">16dp</dimen>
+    <dimen name="screen_padding_vertical">16dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_padding">14dp</dimen>
+    <dimen name="card_corner_radius">14dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_dashboard_height">120dp</dimen>
+    
+    <!-- الأزرار وحقول الإدخال -->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="input_field_margin">12dp</dimen>
+    
+    <!-- النصوص -->
+    <dimen name="text_title">18sp</dimen>
+    <dimen name="text_subtitle">14sp</dimen>
+    <dimen name="text_body">13sp</dimen>
+    <dimen name="text_caption">11sp</dimen>
+
+    <!-- عرض القائمة الجانبية (Navigation Drawer) -->
+    <dimen name="nav_drawer_width">300dp</dimen>
+    
+    <!-- الحاويات والأقصى للأجهزة الكبيرة -->
+    <dimen name="dialog_max_width">380dp</dimen>
+    <dimen name="content_max_width">600dp</dimen>
+</resources>

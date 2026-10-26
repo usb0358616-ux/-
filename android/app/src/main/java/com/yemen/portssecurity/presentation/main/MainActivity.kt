@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_users -> checkAndLaunch("users.view", UsersManagementActivity::class.java)
             R.id.nav_backup -> checkAndLaunch("backup.run", BackupRestoreActivity::class.java)
             R.id.nav_settings -> checkAndLaunch("settings.view", SettingsActivity::class.java)
+            R.id.nav_developer -> checkAndLaunch("settings.view", com.yemen.portssecurity.presentation.developer.DeveloperModuleActivity::class.java)
 
             R.id.nav_logout -> {
                 performLogout()

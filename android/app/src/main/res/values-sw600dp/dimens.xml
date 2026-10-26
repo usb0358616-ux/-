@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- قياسات الأجهزة اللوحية الصغيرة (7 بوصة - sw600dp) -->
+    <dimen name="screen_padding_horizontal">24dp</dimen>
+    <dimen name="screen_padding_vertical">24dp</dimen>
+    <dimen name="card_margin">12dp</dimen>
+    <dimen name="card_padding">18dp</dimen>
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="card_dashboard_height">140dp</dimen>
+
+    <dimen name="button_height">52dp</dimen>
+    <dimen name="input_field_margin">16dp</dimen>
+
+    <dimen name="text_title">22sp</dimen>
+    <dimen name="text_subtitle">16sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+
+    <dimen name="nav_drawer_width">340dp</dimen>
+    <dimen name="dialog_max_width">500dp</dimen>
+    <dimen name="content_max_width">720dp</dimen>
+</resources>

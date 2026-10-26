@@ -375,10 +375,10 @@ export default function NotificationsBell({ onStatusChanged }: NotificationsBell
                                 value={responseInputs[item.id] || ''}
                                 onChange={(e) => setResponseInputs(prev => ({ ...prev, [item.id]: e.target.value }))}
                               />
-                              <button 
+                              <button
                                 onClick={() => {
                                   const val = responseInputs[item.id];
-                                  if (!val) return alert('الرجاء إدخال رقم صادر الرد المرجعي');
+                                  if (!val?.trim()) return;
                                   handleUpdateStatus(item.id, item.type, 'responded', val);
                                 }}
                                 className="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1"

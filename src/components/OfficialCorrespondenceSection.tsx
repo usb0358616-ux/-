@@ -15,9 +15,15 @@ import {
   Sparkles,
   RefreshCw,
   Copy,
-  Edit3
+  Edit3,
+  PenTool,
+  Lock,
+  Fingerprint,
+  Award,
+  QrCode
 } from 'lucide-react';
 import type { OfficialCorrespondence, OfficialCorrespondenceTemplateType, User } from '../types';
+import DigitalSignatureModal from './DigitalSignatureModal';
 
 interface OfficialCorrespondenceSectionProps {
   correspondences: OfficialCorrespondence[];
@@ -35,6 +41,7 @@ export default function OfficialCorrespondenceSection({
   const [selectedLetter, setSelectedLetter] = useState<OfficialCorrespondence | null>(null);
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [showEditorModal, setShowEditorModal] = useState(false);
+  const [signModalLetter, setSignModalLetter] = useState<OfficialCorrespondence | null>(null);
 
   // Form State for creating/editing official letter
   const [formData, setFormData] = useState<Partial<OfficialCorrespondence>>({
@@ -320,16 +327,35 @@ export default function OfficialCorrespondenceSection({
               </p>
             </div>
 
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs mt-3">
-              <span className="text-[11px] text-slate-400">
-                الموقع: {letter.signatoryName}
-              </span>
+            {/* Signature Status & Actions */}
+            <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs mt-3">
+              <div className="flex items-center gap-2">
+                {letter.digitalSignature?.isSigned ? (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg font-bold text-[11px]">
+                    <ShieldCheck size={13} className="text-emerald-600" />
+                    <span>موقّع رقمياً: {letter.digitalSignature.verificationCode}</span>
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => setSignModalLetter(letter)}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold rounded-lg transition text-xs cursor-pointer shadow-2xs"
+                    title="توقيع المستند واعتماده بالهوية الرقمية"
+                  >
+                    <PenTool size={13} className="text-amber-700" />
+                    <span>توقيع رقمي للمسؤول</span>
+                  </button>
+                )}
+                <span className="text-[11px] text-slate-400">
+                  الموقع: {letter.signatoryName}
+                </span>
+              </div>
+
               <button
                 onClick={() => {
                   setSelectedLetter(letter);
                   setShowPrintModal(true);
                 }}
-                className="px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 font-bold rounded-lg transition flex items-center gap-1.5"
+                className="px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer"
               >
                 <Printer size={14} />
                 معاينة وطباعة الوثيقة
@@ -543,16 +569,30 @@ export default function OfficialCorrespondenceSection({
             <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-6 no-print">
               <span className="font-bold text-slate-500 text-xs">معاينة واستخراج المكاتبة السيادية الرسمية</span>
               <div className="flex items-center gap-2">
+                {selectedLetter.digitalSignature?.isSigned ? (
+                  <span className="px-3 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-300 rounded-xl text-xs font-black flex items-center gap-1.5">
+                    <ShieldCheck size={15} className="text-emerald-600" />
+                    <span>وثيقة موقّعة ومحمية رقمياً ({selectedLetter.digitalSignature.verificationCode})</span>
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => setSignModalLetter(selectedLetter)}
+                    className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-900/20 transition cursor-pointer"
+                  >
+                    <PenTool size={15} />
+                    توقيع المستند رقمياً الآن
+                  </button>
+                )}
                 <button
                   onClick={() => window.print()}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-blue-900/20"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-blue-900/20 cursor-pointer"
                 >
                   <Printer size={16} />
                   طباعة الوثيقة
                 </button>
                 <button
                   onClick={() => setShowPrintModal(false)}
-                  className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold"
+                  className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold cursor-pointer"
                 >
                   إغلاق
                 </button>
@@ -611,30 +651,103 @@ export default function OfficialCorrespondenceSection({
                 <div className="font-bold pt-2">{selectedLetter.closingGreeting}</div>
               </div>
 
-              {/* Signatures & Official Stamp */}
-              <div className="pt-8 border-t-2 border-slate-900 flex items-end justify-between text-xs">
-                <div className="space-y-1 text-right">
+              {/* Signatures & Official Stamp & Digital Verification */}
+              <div className="pt-8 border-t-2 border-slate-900 flex flex-wrap items-end justify-between gap-4 text-xs">
+                <div className="space-y-1 text-right max-w-xs">
                   <div className="text-[10px] text-slate-500 font-mono">
                     الرقم المرجعي الموثق: {selectedLetter.investigationNumber || '1191'} / {selectedLetter.entryNumber || '1917'}
                   </div>
                   <div className="text-[10px] text-slate-400">
                     صدرت بموجب اللائحة الإدارية والسيادية المعتمدة
                   </div>
+                  {selectedLetter.digitalSignature?.isSigned && (
+                    <div className="mt-2 p-2 bg-slate-50 rounded-lg border border-slate-200 text-[10px] font-mono text-slate-600">
+                      <div>بصمة الوثيقة (SHA-256):</div>
+                      <div className="font-bold text-slate-800 break-all">{selectedLetter.digitalSignature.certificateHash}</div>
+                      <div className="text-emerald-700 font-bold mt-1">تاريخ الاعتماد: {new Date(selectedLetter.digitalSignature.signedAt).toLocaleString('ar-YE')}</div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="text-center p-3 border-2 border-blue-950 rounded-2xl bg-blue-50/20">
-                  <div className="text-[11px] font-bold text-slate-600 mb-1">الختم والاعتماد الرسمي</div>
-                  <div className="w-20 h-20 rounded-full border-2 border-dashed border-blue-900 mx-auto flex flex-col items-center justify-center p-1 text-[9px] font-black text-blue-950">
-                    <span>مصلحة الهجرة</span>
-                    <span>وزارة الداخلية</span>
-                    <span>معتمد رسمياً</span>
+                <div className="flex items-center gap-4">
+                  {/* Digital Signature Seal */}
+                  {selectedLetter.digitalSignature?.isSigned ? (
+                    <div className="p-3 border-2 border-emerald-600 rounded-2xl bg-emerald-50/40 text-center min-w-[210px] shadow-xs">
+                      <div className="flex items-center justify-center gap-1 text-[11px] font-black text-emerald-900 mb-1">
+                        <ShieldCheck size={14} className="text-emerald-600" />
+                        <span>التوقيع والاعتماد الرقمي</span>
+                      </div>
+
+                      {selectedLetter.digitalSignature.signatureImage ? (
+                        <div className="bg-white p-1 rounded-lg border border-emerald-200 my-1">
+                          <img 
+                            src={selectedLetter.digitalSignature.signatureImage} 
+                            alt="التوقيع الرقمي للمسؤول" 
+                            className="h-12 max-w-[180px] mx-auto object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="my-1.5 py-1 px-3 bg-white rounded-lg border border-emerald-200 font-serif italic text-emerald-950 font-black text-sm tracking-wide">
+                          {selectedLetter.digitalSignature.signedBy}
+                        </div>
+                      )}
+
+                      <div className="font-black text-slate-900 text-xs mt-1">
+                        {selectedLetter.digitalSignature.signedBy}
+                      </div>
+                      <div className="text-[10px] text-slate-600 font-bold">
+                        {selectedLetter.digitalSignature.signedByRank}
+                      </div>
+
+                      <div className="inline-block mt-1.5 px-2 py-0.5 bg-white border border-emerald-300 rounded font-mono font-bold text-[9px] text-emerald-800">
+                        {selectedLetter.digitalSignature.verificationCode}
+                      </div>
+                      <div className="text-[8px] text-emerald-700 font-bold mt-0.5">
+                        ✓ موثق ومحمٍ ضد التعديل
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      onClick={() => setSignModalLetter(selectedLetter)}
+                      className="p-3 border-2 border-dashed border-amber-400 rounded-2xl bg-amber-50/30 text-center min-w-[180px] cursor-pointer hover:bg-amber-50 transition no-print"
+                    >
+                      <PenTool size={20} className="mx-auto text-amber-600 mb-1" />
+                      <div className="text-xs font-bold text-amber-900">بانتظار التوقيع الرقمي</div>
+                      <div className="text-[10px] text-amber-700 mt-0.5">انقر هنا لتوقيع المستند رسمياً</div>
+                    </div>
+                  )}
+
+                  {/* Sovereign Stamp */}
+                  <div className="text-center p-3 border-2 border-blue-950 rounded-2xl bg-blue-50/20 min-w-[150px]">
+                    <div className="text-[10px] font-bold text-slate-600 mb-1">الختم والاعتماد الرسمي</div>
+                    <div className="w-16 h-16 rounded-full border-2 border-dashed border-blue-900 mx-auto flex flex-col items-center justify-center p-1 text-[8px] font-black text-blue-950 leading-tight">
+                      <span>مصلحة الهجرة</span>
+                      <span>وزارة الداخلية</span>
+                      <span>معتمد رسمياً</span>
+                    </div>
+                    <div className="font-black text-slate-900 mt-1.5 text-[11px]">{selectedLetter.signatoryName}</div>
                   </div>
-                  <div className="font-black text-slate-900 mt-2 text-xs">{selectedLetter.signatoryName}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Sovereign Digital Signature Modal */}
+      {signModalLetter && (
+        <DigitalSignatureModal
+          letter={signModalLetter}
+          user={user}
+          onClose={() => setSignModalLetter(null)}
+          onSuccess={(updated) => {
+            setSignModalLetter(null);
+            if (selectedLetter && selectedLetter.id === updated.id) {
+              setSelectedLetter(updated);
+            }
+            onRefresh();
+          }}
+        />
       )}
     </div>
   );

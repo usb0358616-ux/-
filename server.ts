@@ -80,6 +80,41 @@ async function startServer() {
       status: "مكتمل",
       isArchived: false
     },
+    // معملات الـ 30 يوماً الماضية (سبتمبر - أكتوبر 2026)
+    { id: "d-30-1", type: "وارد", number: "401", date: "2026-09-23", subject: "طلب فحص وتدقيق أمني لمنفذ الوديعة", sender: "إدارة منفذ الوديعة", recipient: "فرع استخبارات الشرطة", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-2", type: "صادر", number: "402", date: "2026-09-23", subject: "إفادة عدم ممانعة أمنية لنزول بحارة", sender: "إدارة الاستخبارات", recipient: "إدارة ميناء المكلا", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-3", type: "وارد", number: "403", date: "2026-09-25", subject: "برقية إشعار وصول شحنة طبية عاجلة", sender: "منفذ شحن الحدودي", recipient: "غرفة العمليات المركزية", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-4", type: "صادر", number: "404", date: "2026-09-25", subject: "تعميم أمني للمنافذ البرية بمطابقة كشوفات الركاب", sender: "مكتب شؤون المنافذ", recipient: "كافة المنافذ البرية", priority: "سري جداً", status: "مكتمل", isArchived: false },
+    { id: "d-30-5", type: "صادر", number: "405", date: "2026-09-27", subject: "تصريح عبور وفد تجاري استثماري", sender: "مصلحة الجوازات", recipient: "منفذ شحن البري", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-6", type: "وارد", number: "406", date: "2026-09-27", subject: "محضر استلام وثائق سفر محتجزة", sender: "مطار سيئون الدولي", recipient: "إدارة التحقيقات", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-7", type: "وارد", number: "407", date: "2026-09-29", subject: "طلب فحص جنائي لجواز سفر أجنبي مشبوه", sender: "مطار عدن الدولي", recipient: "فرع الأدلة الجنائية", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-8", type: "وارد", number: "408", date: "2026-09-29", subject: "كشف ركاب الرحلات الدولية غير المجدولة", sender: "مطار الريان الدولي", recipient: "فرع استخبارات الشرطة", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-9", type: "صادر", number: "409", date: "2026-10-01", subject: "مذكرة إحالة قضايا التزوير إلى النيابة المتخصصة", sender: "الإدارة القانونية", recipient: "النيابة العامة", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-10", type: "صادر", number: "410", date: "2026-10-01", subject: "رد أمني استخباراتي ملف 1191 قيد 1917", sender: "فرع استخبارات الشرطة", recipient: "إدارة الرقابة الحدودية", priority: "سري جداً", status: "مكتمل", isArchived: false },
+    { id: "d-30-11", type: "وارد", number: "411", date: "2026-10-03", subject: "طلب تأشيرة دخول استثنائية لكادر هندسي أجنبي", sender: "وزارة النفط والمعادن", recipient: "شؤون العرب والأجانب", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-12", type: "صادر", number: "412", date: "2026-10-03", subject: "إشعار بالموافقة الأمنية ومنح إذن الدخول", sender: "شؤون العرب والأجانب", recipient: "منفذ الوديعة", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-13", type: "وارد", number: "413", date: "2026-10-05", subject: "محضر ضبط 6 جوازات سفر منتهية ومعدلة", sender: "منفذ الوديعة", recipient: "إدارة الوثائق المحتجزة", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-14", type: "صادر", number: "414", date: "2026-10-05", subject: "أمر تحريز وإيداع وثائق في الخزينة المركزية", sender: "إدارة الاستخبارات", recipient: "قسم الأحراز الأمنية", priority: "سري جداً", status: "مكتمل", isArchived: false },
+    { id: "d-30-15", type: "صادر", number: "415", date: "2026-10-07", subject: "تصريح تنقل ميداني لفريق منظمة أطباء بلا حدود", sender: "إدارة تصاريح التنقل", recipient: "نقاط التفتيش الأمنية", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-16", type: "وارد", number: "416", date: "2026-10-07", subject: "تقرير حركة البضائع وأطقم السفن الراسية", sender: "ميناء عدن", recipient: "الرقابة البحرية", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-17", type: "وارد", number: "417", date: "2026-10-09", subject: "طلب تجديد إقامات كوادر مستشفى الثورة", sender: "مكتب الصحة العامة", recipient: "إدارة الإقامات", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-18", type: "صادر", number: "418", date: "2026-10-09", subject: "تجديد بطاقات الإقامة وتحديث السجل الإلكتروني", sender: "إدارة الإقامات", recipient: "مكتب الصحة العامة", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-19", type: "صادر", number: "419", date: "2026-10-11", subject: "تعميم القائمة المحدثة للمطلوبين والممنوعين من السفر", sender: "فرع استخبارات الشرطة", recipient: "كافة المنافذ السيادية الـ 13", priority: "سري جداً", status: "مكتمل", isArchived: false },
+    { id: "d-30-20", type: "وارد", number: "420", date: "2026-10-11", subject: "إشعار استلام التعميم وتحديث قاعدة بيانات المنفذ", sender: "منفذ صرفيت البري", recipient: "غرفة العمليات", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-21", type: "وارد", number: "421", date: "2026-10-13", subject: "طلب إصدار وثيقة سفر اضطرارية مؤقتة", sender: "القنصلية اليمنية", recipient: "الإدارة العامة لوثائق السفر", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-22", type: "صادر", number: "422", date: "2026-10-13", subject: "الموافقة على منح وثيقة سفر للإخوة الفلسطينيين", sender: "وثائق السفر", recipient: "فرع عدن", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-23", type: "صادر", number: "423", date: "2026-10-15", subject: "برقية عملياتية لتشديد الرقابة على رحلات الترانزيت", sender: "مكتب المدير العام", recipient: "مطار صنعاء الدولي", priority: "سري جداً", status: "مكتمل", isArchived: false },
+    { id: "d-30-24", type: "وارد", number: "424", date: "2026-10-15", subject: "محضر ضبط مبالغ نقدية مخالفة للائحة الجمركية", sender: "مطار عدن الدولي", recipient: "الشؤون المالية والقانونية", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-25", type: "وارد", number: "425", date: "2026-10-17", subject: "طلب تجديد اعتماد شركة تفويج معتمرة", sender: "وكالة الفردوس للسياحة", recipient: "إدارة الرقابة على الشركات", priority: "عادي", status: "قيد التنفيذ", isArchived: false },
+    { id: "d-30-26", type: "صادر", number: "426", date: "2026-10-17", subject: "إشعار إنذار بمخالفة التعليمات المنظمة للتفويج", sender: "إدارة الرقابة على الشركات", recipient: "وكالة الفردوس للسياحة", priority: "عاجل", status: "قيد التنفيذ", isArchived: false },
+    { id: "d-30-27", type: "صادر", number: "427", date: "2026-10-19", subject: "مذكرة تنسيق مع محكمة استئناف أمانة العاصمة بشأن معاملات الزواج المختلط", sender: "الإدارة العامة للجنسية", recipient: "محكمة استئناف الأمانة", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-28", type: "وارد", number: "428", date: "2026-10-19", subject: "طلب إذن اكتساب جنسية أجنبية لمواطن يمني مقيم", sender: "مكتب الخارجية", recipient: "الإدارة العامة للجنسية", priority: "عادي", status: "قيد التنفيذ", isArchived: false },
+    { id: "d-30-29", type: "وارد", number: "429", date: "2026-10-20", subject: "إحصائية حركة دخول وخروج المسافرين اليومية", sender: "منفذ شحن البري", recipient: "إدارة الإحصاء والمعلومات", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-30", type: "صادر", number: "430", date: "2026-10-20", subject: "تصريح أمني لنقل معدات اتصالات لصالح المنفذ", sender: "الشؤون الفنية", recipient: "منفذ شحن البري", priority: "عادي", status: "مكتمل", isArchived: false },
+    { id: "d-30-31", type: "وارد", number: "431", date: "2026-10-21", subject: "محضر إيواء عدد (18) مهاجراً غير شرعي تم ضبطهم ساحلياً", sender: "حفر السواحل - قطاع البحر الأحمر", recipient: "إدارة شؤون المهاجرين واللاجئين", priority: "عاجل", status: "قيد التنفيذ", isArchived: false },
+    { id: "d-30-32", type: "صادر", number: "432", date: "2026-10-21", subject: "أمر تكليف بلجنة التحري الأمني الطبي والفحص الجنائي", sender: "شؤون المهاجرين", recipient: "فريق الفحص الميداني", priority: "عاجل", status: "مكتمل", isArchived: false },
+    { id: "d-30-33", type: "وارد", number: "433", date: "2026-10-22", subject: "طلب التحقق من سلامة وثائق سفر وفد دبلوماسي", sender: "مطار عدن الدولي", recipient: "فرع استخبارات الشرطة", priority: "عاجل", status: "قيد التنفيذ", isArchived: false },
+    { id: "d-30-34", type: "صادر", number: "434", date: "2026-10-22", subject: "مذكرة التوجيهات النهائية لتفعيل نظام الفحص الإلكتروني الموحد بالمنافذ", sender: "رئاسة مصلحة الجوازات", recipient: "مدراء عموم المنافذ السيادية الـ 13", priority: "سري جداً", status: "قيد التنفيذ", isArchived: false, notes: "مستند رسمي صادر يتطلب التوقيع والمصادقة الرقمية للمسؤول" },
     // Archived documents (Older than 6 months: e.g. dates from late 2025 / early 2026)
     { 
       id: "old-1", 
@@ -1743,6 +1778,94 @@ async function startServer() {
     }
   });
 
+  // ==========================================
+  // نظام تنبيهات الدفع (Push Notifications System)
+  // ==========================================
+  let pushNotifications: any[] = [
+    {
+      id: "notif-1",
+      title: "تحديث في حالة جواز سفر خاص",
+      message: "تم تحديث حالة جواز السفر رقم 08912344 للمواطن عمر سالم إلى: سليم / مخلص ومطابق للفحص الأمني.",
+      type: "passport_status",
+      referenceId: "08912344",
+      targetTab: "passports",
+      createdAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+      isRead: false,
+      priority: "normal",
+      officerName: "المقدم / سالم الحارثي"
+    },
+    {
+      id: "notif-2",
+      title: "معاملة واردة جديدة في شريط المهام",
+      message: "وردت مذكرة رسمية عاجلة برقم 1042/و من مصلحة الهجرة والجوازات بشأن مطابقة وتدقيق المسافرين.",
+      type: "new_transaction",
+      referenceId: "1042",
+      targetTab: "وارد",
+      createdAt: new Date(Date.now() - 40 * 60 * 1000).toISOString(),
+      isRead: false,
+      priority: "high",
+      officerName: "غرفة العمليات المركزية"
+    },
+    {
+      id: "notif-3",
+      title: "تنبيه مدة إنجاز المعاملة (SLA)",
+      message: "معاملة اكتساب الجنسية رقم معاملة-2026-1102 تجاوزت المدة القانونية المحددة باللائحة (20 يوماً).",
+      type: "sla_warning",
+      referenceId: "معاملة-2026-1102",
+      targetTab: "clearances",
+      createdAt: new Date(Date.now() - 120 * 60 * 1000).toISOString(),
+      isRead: false,
+      priority: "urgent",
+      officerName: "نظام الرقابة الآلي"
+    }
+  ];
+
+  function broadcastPushNotification(title: string, message: string, type: string, referenceId?: string, targetTab?: string, priority = 'normal', officerName = 'نظام المنظومة السيادية') {
+    const notif = {
+      id: `notif-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      title,
+      message,
+      type,
+      referenceId,
+      targetTab,
+      createdAt: new Date().toISOString(),
+      isRead: false,
+      priority,
+      officerName
+    };
+    pushNotifications.unshift(notif);
+    if (pushNotifications.length > 50) pushNotifications.pop();
+    return notif;
+  }
+
+  app.get("/api/push-notifications", (req, res) => {
+    res.json(pushNotifications);
+  });
+
+  app.post("/api/push-notifications/mark-read", (req, res) => {
+    const { id } = req.body;
+    if (id) {
+      const item = pushNotifications.find(n => n.id === id);
+      if (item) item.isRead = true;
+    } else {
+      pushNotifications.forEach(n => n.isRead = true);
+    }
+    res.json({ success: true });
+  });
+
+  app.post("/api/push-notifications/send", (req, res) => {
+    const notif = broadcastPushNotification(
+      req.body.title || "تنبيه سيادي جديد",
+      req.body.message || "",
+      req.body.type || "new_transaction",
+      req.body.referenceId,
+      req.body.targetTab,
+      req.body.priority || "normal",
+      req.body.officerName || "العمليات"
+    );
+    res.status(201).json(notif);
+  });
+
   app.get("/api/documents", (req, res) => {
     res.json(documents);
   });
@@ -1750,7 +1873,54 @@ async function startServer() {
   app.post("/api/documents", (req, res) => {
     const newDoc = { ...req.body, id: Date.now().toString() };
     documents.push(newDoc);
+
+    broadcastPushNotification(
+      `معاملة ${newDoc.type || 'واردة'} جديدة برقم ${newDoc.number || 'جديد'}`,
+      `الموضوع: ${newDoc.subject || 'معاملة رسمية'} | من جهة: ${newDoc.sender || 'غير محدد'}`,
+      "new_transaction",
+      newDoc.id,
+      newDoc.type === 'صادر' ? 'صادر' : 'وارد',
+      "high",
+      newDoc.sender || "مركز الاتصالات الإدارية"
+    );
+
     res.status(201).json(newDoc);
+  });
+
+  app.put("/api/documents/:id", (req, res) => {
+    const { id } = req.params;
+    const docIndex = documents.findIndex(d => d.id === id);
+    if (docIndex === -1) {
+      return res.status(404).json({ error: "المستند غير موجود" });
+    }
+    documents[docIndex] = { ...documents[docIndex], ...req.body };
+    res.json(documents[docIndex]);
+  });
+
+  app.put("/api/documents/:id/sign", (req, res) => {
+    const { id } = req.params;
+    const { digitalSignature } = req.body;
+    const docIndex = documents.findIndex(d => d.id === id);
+    if (docIndex === -1) {
+      return res.status(404).json({ error: "المستند غير موجود" });
+    }
+    
+    documents[docIndex].digitalSignature = digitalSignature;
+    if (digitalSignature && digitalSignature.isSigned) {
+      documents[docIndex].status = "مكتمل";
+      
+      broadcastPushNotification(
+        `تم التوقيع الرقمي للمستند الصادر #${documents[docIndex].number}`,
+        `الموقع: ${digitalSignature.signedBy} | كود التحقق: ${digitalSignature.verificationCode}`,
+        "correspondence_signed",
+        id,
+        "صادر",
+        "normal",
+        digitalSignature.signedBy
+      );
+    }
+    
+    res.json(documents[docIndex]);
   });
 
   app.delete("/api/documents/:id", (req, res) => {
@@ -2160,6 +2330,16 @@ async function startServer() {
           user: req.body.user || "المستخدم الحالي"
         }
       ];
+
+      broadcastPushNotification(
+        "تحديث في حالة جواز سفر خاص",
+        `تم تحديث حالة الجواز رقم (${updated.passportNumber}) للمواطن (${updated.fullName}) من [${current.status}] إلى: [${req.body.status}].`,
+        "passport_status",
+        updated.passportNumber,
+        "passports",
+        req.body.status === "يحتاج إجراء" || req.body.status === "محال" ? "urgent" : "normal",
+        req.body.user || "ضابط الجوازات"
+      );
     }
 
     passports[passIndex] = updated;
@@ -3269,6 +3449,44 @@ async function startServer() {
     res.json(officialCorrespondences[idx]);
   });
 
+  app.put("/api/official-correspondence/:id/sign", (req, res) => {
+    const idx = officialCorrespondences.findIndex(c => c.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: "المكاتبة غير موجودة" });
+
+    const signatureInfo = {
+      isSigned: true,
+      signedBy: req.body.signedBy || "المسؤول المفوض",
+      signedByRank: req.body.signedByRank || "رتبة قيادية",
+      signedAt: new Date().toISOString(),
+      certificateHash: req.body.certificateHash || `SHA256-${Date.now().toString(16).toUpperCase()}-YEMEN-SOV-SEAL`,
+      pinVerified: true,
+      signatureImage: req.body.signatureImage || null,
+      verificationCode: req.body.verificationCode || `YEM-SIG-${Math.floor(100000 + Math.random() * 900000)}`
+    };
+
+    officialCorrespondences[idx].digitalSignature = signatureInfo;
+    recordAuditLog(
+      "توقيع رقمي",
+      "المكاتبات الرسمية",
+      officialCorrespondences[idx].incomingOrOutgoingNumber,
+      `تم توقيع واعتماد المكاتبة رقمياً بواسطة: ${signatureInfo.signedBy} برمز التحقق: ${signatureInfo.verificationCode}`,
+      signatureInfo.signedBy,
+      "مسؤول معتمد"
+    );
+
+    broadcastPushNotification(
+      "اعتماد وتوقيع مستند رسمي رقمياً",
+      `تم توقيع واعتماد المكاتبة (${officialCorrespondences[idx].subject}) رسمياً برمز موثق: ${signatureInfo.verificationCode}`,
+      "correspondence_signed",
+      officialCorrespondences[idx].id,
+      "correspondence",
+      "high",
+      signatureInfo.signedBy
+    );
+
+    res.json(officialCorrespondences[idx]);
+  });
+
   app.delete("/api/official-correspondence/:id", (req, res) => {
     officialCorrespondences = officialCorrespondences.filter(c => c.id !== req.params.id);
     res.status(204).send();
@@ -3721,7 +3939,10 @@ ${sampleOutput}
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: { 
+        middlewareMode: true,
+        hmr: false,
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);

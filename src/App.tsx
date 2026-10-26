@@ -29,6 +29,7 @@ import PoliceIntelligenceSection from './components/PoliceIntelligenceSection';
 import OfficialCorrespondenceSection from './components/OfficialCorrespondenceSection';
 import MonitoredCompaniesSection from './components/MonitoredCompaniesSection';
 import DeveloperModule from './components/DeveloperModule';
+import PushNotificationManager from './components/PushNotificationManager';
 
 import type { 
   Document, 
@@ -49,7 +50,8 @@ import type {
   PoliceIntelligenceRequest,
   OfficialCorrespondence,
   MonitoredCompany,
-  LabelOverride
+  LabelOverride,
+  TabType
 } from './types';
 
 import { 
@@ -84,32 +86,6 @@ import {
   FileCheck,
   Code2
 } from 'lucide-react';
-
-type TabType = 
-  | 'dashboard' 
-  | 'developer'
-  | 'ports'
-  | 'passports' 
-  | 'seizures' 
-  | 'security' 
-  | 'intelligence'
-  | 'correspondence'
-  | 'companies'
-  | 'clearances'
-  | 'permits'
-  | 'organizations'
-  | 'refugees'
-  | 'deliveries' 
-  | 'offices' 
-  | 'residencies' 
-  | 'excel-tool' 
-  | 'central-search' 
-  | 'audit-log'
-  | 'وارد' 
-  | 'صادر' 
-  | 'daily-summary' 
-  | 'archive' 
-  | 'reports';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -986,6 +962,12 @@ export default function App() {
         <div className="p-6 md:p-8 max-w-7xl mx-auto">
           {renderContent()}
         </div>
+
+        {/* Global Sovereign Push Notification System */}
+        <PushNotificationManager 
+          onNavigateToTab={(tab) => setActiveTab(tab)} 
+          currentActiveTab={activeTab} 
+        />
       </main>
 
       {showForm && (

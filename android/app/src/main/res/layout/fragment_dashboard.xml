@@ -48,13 +48,13 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- شبكة البطاقات العملياتية الـ 12 -->
+        <!-- شبكة البطاقات العملياتية الـ 12 المتوافقة مع الهواتف والتابلت -->
         <androidx.gridlayout.widget.GridLayout
             android:id="@+id/glCards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:alignmentMode="alignMargins"
-            app:columnCount="2"
+            app:columnCount="@integer/dashboard_grid_columns"
             app:useDefaultMargins="true">
 
             <!-- 1. محاضر الضبط والجوازات المحتجزة (الأكثر استخداماً) -->

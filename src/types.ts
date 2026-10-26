@@ -25,6 +25,7 @@ export interface Document {
   archiveReason?: string;
   attachments?: DocumentAttachment[];
   extractedContent?: string; // خانة محتويات الملف (النصوص المستخرجة من داخل الملفات)
+  digitalSignature?: DigitalSignatureInfo; // التوقيع الرقمي للمستند الصادر
 }
 
 export interface User {
@@ -609,6 +610,30 @@ export type OfficialCorrespondenceTemplateType =
   | 'security_investigation_request' // طلب تحرٍ أمني (للاستخبارات)
   | 'auto_reply'; // رد على طلب (يولد تلقائياً)
 
+export interface DigitalSignatureInfo {
+  isSigned: boolean;
+  signedBy: string;
+  signedByRank?: string;
+  signedAt: string;
+  certificateHash: string; // SHA-256 fingerprint
+  pinVerified: boolean;
+  signatureImage?: string; // Data URL of drawn signature
+  verificationCode: string; // Sovereign Verification Code e.g. YEM-SEC-9921
+}
+
+export interface PushNotificationItem {
+  id: string;
+  title: string;
+  message: string;
+  type: 'new_transaction' | 'passport_status' | 'sla_warning' | 'correspondence_signed';
+  referenceId?: string;
+  targetTab?: string;
+  createdAt: string;
+  isRead: boolean;
+  priority: 'high' | 'normal' | 'urgent';
+  officerName?: string;
+}
+
 export interface OfficialCorrespondence {
   id: string;
   templateType: OfficialCorrespondenceTemplateType;
@@ -628,6 +653,7 @@ export interface OfficialCorrespondence {
   signatoryName: string; // التوقيع + الاسم
   signatoryRank: string;
   officialStamp: string; // الختم
+  digitalSignature?: DigitalSignatureInfo; // التوقيع الرقمي للمسؤول
   createdAt: string;
 }
 
@@ -870,8 +896,31 @@ export interface SchemaSnapshot {
   created_at: string;
   restored_at?: string;
 }
-
-
-
+// 9. Sovereign System Main Navigation Tabs
+export type TabType = 
+  | 'dashboard' 
+  | 'developer'
+  | 'ports'
+  | 'passports' 
+  | 'seizures' 
+  | 'security' 
+  | 'intelligence'
+  | 'correspondence'
+  | 'companies'
+  | 'clearances'
+  | 'permits'
+  | 'organizations'
+  | 'refugees'
+  | 'deliveries' 
+  | 'offices' 
+  | 'residencies' 
+  | 'excel-tool' 
+  | 'central-search' 
+  | 'audit-log'
+  | 'وارد' 
+  | 'صادر' 
+  | 'daily-summary' 
+  | 'archive' 
+  | 'reports';
 
 

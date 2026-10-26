@@ -19,7 +19,8 @@ import type { SecurityClearanceRequest, BatchTransferRecord, User, ClearanceDepa
 import PersonDossierModal from './PersonDossierModal';
 import FormGeneratorModal from './FormGeneratorModal';
 import SmartAIImportModal from './SmartAIImportModal';
-import { UserCheck, Stamp, Sparkles } from 'lucide-react';
+import SlaDashboardCharts from './SlaDashboardCharts';
+import { UserCheck, Stamp, Sparkles, BarChart3, TrendingUp } from 'lucide-react';
 
 // القواعد الرسمية المعتمدة في محاضر وزارة الداخلية
 export const OFFICIAL_SLA_RULES: Record<ClearanceDepartment, { service: string; days: number; periodLabel: string }[]> = {
@@ -61,7 +62,7 @@ export default function SecurityClearanceSection({
   user,
   onRefresh
 }: Props) {
-  const [activeSubTab, setActiveSubTab] = useState<'requests' | 'transfers' | 'regulations'>('requests');
+  const [activeSubTab, setActiveSubTab] = useState<'dashboard' | 'requests' | 'transfers' | 'regulations'>('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
   const [deptFilter, setDeptFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -258,10 +259,21 @@ export default function SecurityClearanceSection({
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex border-b border-slate-200 gap-2">
+      <div className="flex border-b border-slate-200 gap-2 overflow-x-auto">
+        <button
+          onClick={() => setActiveSubTab('dashboard')}
+          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            activeSubTab === 'dashboard'
+              ? 'border-indigo-600 text-indigo-700'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <BarChart3 className="h-4 w-4" />
+          لوحة المؤشرات الرسومية (SLA Dashboard)
+        </button>
         <button
           onClick={() => setActiveSubTab('requests')}
-          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 ${
+          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 whitespace-nowrap cursor-pointer ${
             activeSubTab === 'requests'
               ? 'border-indigo-600 text-indigo-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -272,7 +284,7 @@ export default function SecurityClearanceSection({
         </button>
         <button
           onClick={() => setActiveSubTab('transfers')}
-          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 ${
+          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 whitespace-nowrap cursor-pointer ${
             activeSubTab === 'transfers'
               ? 'border-indigo-600 text-indigo-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -283,7 +295,7 @@ export default function SecurityClearanceSection({
         </button>
         <button
           onClick={() => setActiveSubTab('regulations')}
-          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 ${
+          className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 whitespace-nowrap cursor-pointer ${
             activeSubTab === 'regulations'
               ? 'border-indigo-600 text-indigo-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -293,6 +305,18 @@ export default function SecurityClearanceSection({
           اللائحة المعتمدة للمدد الزمنية (المرجع الرسمي)
         </button>
       </div>
+
+      {/* TAB 0: SLA Dashboard with Recharts */}
+      {activeSubTab === 'dashboard' && (
+        <SlaDashboardCharts
+          clearances={clearances}
+          onSelectRequest={(req) => {
+            setSelectedRequest(req);
+            setShowActionModal(true);
+          }}
+          onRefresh={onRefresh}
+        />
+      )}
 
       {/* TAB 1: Requests & SLA */}
       {activeSubTab === 'requests' && (
@@ -461,7 +485,7 @@ export default function SecurityClearanceSection({
               </p>
             </div>
             <button
-              onClick={() => alert('تم توليد كشف تسليم جديد وجاهز للتصدير والتوقيع')}
+              onClick={() => window.print()}
               className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5"
             >
               <Printer className="h-3.5 w-3.5" />

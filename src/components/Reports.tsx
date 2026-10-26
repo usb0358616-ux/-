@@ -23,9 +23,11 @@ import {
   MapPin, 
   FileSpreadsheet,
   Building,
-  Smartphone
+  Smartphone,
+  Activity
 } from 'lucide-react';
 import type { Document, SeizureRecord, PassportRecord } from '../types';
+import DailyTransactions30DaysChart from './DailyTransactions30DaysChart';
 
 interface ReportsProps {
   documents: Document[];
@@ -34,7 +36,7 @@ interface ReportsProps {
 }
 
 export default function Reports({ documents, seizures = [], passports = [] }: ReportsProps) {
-  const [reportType, setReportType] = useState<'general' | 'seizures' | 'passports'>('seizures');
+  const [reportType, setReportType] = useState<'daily_transactions' | 'general' | 'seizures' | 'passports'>('daily_transactions');
 
   // Documents stats
   const typeData = [
@@ -88,9 +90,18 @@ export default function Reports({ documents, seizures = [], passports = [] }: Re
         <div className="flex flex-wrap items-center gap-2">
           <div className="bg-slate-100 p-1 rounded-xl flex items-center gap-1 text-xs font-bold">
             <button
+              onClick={() => setReportType('daily_transactions')}
+              className={`px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
+                reportType === 'daily_transactions' ? 'bg-blue-600 text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Activity size={14} />
+              <span>المعاملات اليومية (30 يوماً)</span>
+            </button>
+            <button
               onClick={() => setReportType('seizures')}
               className={`px-3 py-1.5 rounded-lg transition ${
-                reportType === 'seizures' ? 'bg-purple-700 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                reportType === 'seizures' ? 'bg-purple-700 text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               محاضر الضبط
@@ -98,7 +109,7 @@ export default function Reports({ documents, seizures = [], passports = [] }: Re
             <button
               onClick={() => setReportType('passports')}
               className={`px-3 py-1.5 rounded-lg transition ${
-                reportType === 'passports' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                reportType === 'passports' ? 'bg-indigo-600 text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               إحصائيات الجوازات
@@ -106,7 +117,7 @@ export default function Reports({ documents, seizures = [], passports = [] }: Re
             <button
               onClick={() => setReportType('general')}
               className={`px-3 py-1.5 rounded-lg transition ${
-                reportType === 'general' ? 'bg-slate-800 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                reportType === 'general' ? 'bg-slate-800 text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               المعاملات العامة
@@ -122,6 +133,13 @@ export default function Reports({ documents, seizures = [], passports = [] }: Re
           </button>
         </div>
       </div>
+
+      {/* ======================================================= */}
+      {/* 0. إحصائيات المعاملات اليومية التفاعلية (30 يوماً - Recharts) */}
+      {/* ======================================================= */}
+      {reportType === 'daily_transactions' && (
+        <DailyTransactions30DaysChart documents={documents} />
+      )}
 
       {/* ======================================================= */}
       {/* 1. تقرير محاضر الضبط بالمنافذ                          */}
@@ -361,42 +379,46 @@ export default function Reports({ documents, seizures = [], passports = [] }: Re
       {/* 3. التقرير العام للمعاملات                              */}
       {/* ======================================================= */}
       {reportType === 'general' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-base font-bold text-slate-800 mb-6 border-r-4 border-blue-500 pr-3">توزيع المعاملات حسب النوع</h3>
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={typeData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={60} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+        <div className="space-y-8">
+          <DailyTransactions30DaysChart documents={documents} />
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-base font-bold text-slate-800 mb-6 border-r-4 border-orange-500 pr-3">تحليل حالة المعاملات</h3>
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={statusData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={90}
-                    dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {statusData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white p-6 rounded-3xl shadow-xs border border-slate-200">
+              <h3 className="text-base font-bold text-slate-800 mb-6 border-r-4 border-blue-500 pr-3">توزيع المعاملات حسب النوع</h3>
+              <div className="h-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={typeData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={60} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-3xl shadow-xs border border-slate-200">
+              <h3 className="text-base font-bold text-slate-800 mb-6 border-r-4 border-orange-500 pr-3">تحليل حالة المعاملات</h3>
+              <div className="h-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={statusData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={90}
+                      dataKey="value"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    >
+                      {statusData.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
         </div>

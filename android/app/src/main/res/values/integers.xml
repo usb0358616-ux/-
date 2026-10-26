@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- عدد أعمدة الشبكة الافتراضي للهواتف في الوضع الرأسي -->
+    <integer name="dashboard_grid_columns">2</integer>
+    <integer name="list_grid_columns">1</integer>
+</resources>

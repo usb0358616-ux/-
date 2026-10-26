@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- عدد أعمدة الشبكة في الوضع الأفقي للهواتف والأجهزة اللوحية -->
+    <integer name="dashboard_grid_columns">3</integer>
+    <integer name="list_grid_columns">2</integer>
+</resources>
