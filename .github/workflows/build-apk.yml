@@ -20,8 +20,6 @@ jobs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
-      with:
-        cmdline-tools-version: '16.0'
 
     - name: Install Android Platforms and Build Tools
       shell: bash
