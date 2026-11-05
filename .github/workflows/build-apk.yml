@@ -20,11 +20,14 @@ jobs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: '16.0'
 
     - name: Install Android Platforms and Build Tools
+      shell: bash
       run: |
-        sdkmanager --licenses || true
-        sdkmanager "platforms;android-33" "build-tools;33.0.2" "platform-tools"
+        yes | sdkmanager --licenses
+        sdkmanager --install "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
@@ -54,7 +57,6 @@ jobs:
       id: build_apk
       working-directory: ./android
       run: |
-        # تشغيل Gradle المباشر المثبت عبر setup-gradle مع إظهار السجلات مباشرة
         gradle assembleDebug --stacktrace --no-daemon 2>&1 | tee build_error_log.txt
 
     - name: Upload Build Log (في حال الفشل)
