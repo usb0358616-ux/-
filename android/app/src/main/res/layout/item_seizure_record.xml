@@ -36,7 +36,7 @@
                 android:id="@+id/tvStatusBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_yemen_eagle"
+                android:background="@drawable/bg_badge"
                 android:backgroundTint="@color/status_warning"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="3dp"
